@@ -1,0 +1,21 @@
+#BlueJ class context
+comment0.target=Estrella
+comment1.params=
+comment1.target=Estrella()
+comment2.params=gradosGiro\ cantidadMovimientos
+comment2.target=Estrella(int,\ int)
+comment3.params=
+comment3.target=int\ getGradosGiro()
+comment4.params=
+comment4.target=int\ getCantidadMovimientos()
+comment5.params=gradosGiro
+comment5.target=void\ setGradosGiro(int)
+comment6.params=cantidadMovimientos
+comment6.target=void\ setCantidadMovimientos(int)
+comment7.params=
+comment7.target=void\ cambiar()
+comment8.params=
+comment8.target=java.lang.String\ mostrarMensaje()
+comment9.params=
+comment9.target=void\ act()
+numComments=10

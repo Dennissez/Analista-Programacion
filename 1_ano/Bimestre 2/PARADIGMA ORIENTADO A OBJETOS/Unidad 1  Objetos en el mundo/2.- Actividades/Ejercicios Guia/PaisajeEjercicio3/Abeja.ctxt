@@ -1,0 +1,21 @@
+#BlueJ class context
+comment0.target=Abeja
+comment1.params=
+comment1.target=Abeja()
+comment2.params=anios\ panal
+comment2.target=Abeja(int,\ java.lang.String)
+comment3.params=
+comment3.target=int\ getAnios()
+comment4.params=
+comment4.target=java.lang.String\ getPanal()
+comment5.params=anios
+comment5.target=void\ setAnios(int)
+comment6.params=panal
+comment6.target=void\ setPanal(java.lang.String)
+comment7.params=
+comment7.target=void\ aumentarAnios()
+comment8.params=
+comment8.target=java.lang.String\ obtenerDatos()
+comment9.params=
+comment9.target=void\ act()
+numComments=10

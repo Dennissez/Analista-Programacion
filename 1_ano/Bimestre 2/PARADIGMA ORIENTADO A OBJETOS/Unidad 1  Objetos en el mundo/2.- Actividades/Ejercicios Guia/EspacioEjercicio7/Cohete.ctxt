@@ -1,0 +1,21 @@
+#BlueJ class context
+comment0.target=Cohete
+comment1.params=
+comment1.target=Cohete()
+comment2.params=cantidadAvance\ anguloGiro
+comment2.target=Cohete(int,\ int)
+comment3.params=
+comment3.target=int\ getCantidadAvance()
+comment4.params=
+comment4.target=int\ getAnguloGiro()
+comment5.params=cantidadAvance
+comment5.target=void\ setCantidadAvance(int)
+comment6.params=anguloGiro
+comment6.target=void\ setAnguloGiro(int)
+comment7.params=
+comment7.target=void\ mover()
+comment8.params=
+comment8.target=void\ girar()
+comment9.params=
+comment9.target=void\ act()
+numComments=10

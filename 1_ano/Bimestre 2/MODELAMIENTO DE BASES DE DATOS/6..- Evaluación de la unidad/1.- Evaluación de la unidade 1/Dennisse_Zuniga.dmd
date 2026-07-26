@@ -1,0 +1,8 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<OSDM_Design class="oracle.dbtools.crest.model.design.Design" name="Dennisse_Zuniga" id="0992FB17-55DF-FEA5-2570-DF370FD11A8F" version="3.5">
+<createdBy>zunig</createdBy>
+<createdTime>2026-06-15 02:44:08 UTC</createdTime>
+<ownerDesignName>Dennisse_Zuniga</ownerDesignName>
+<capitalNames>false</capitalNames>
+<designId>0992FB17-55DF-FEA5-2570-DF370FD11A8F</designId>
+</OSDM_Design>

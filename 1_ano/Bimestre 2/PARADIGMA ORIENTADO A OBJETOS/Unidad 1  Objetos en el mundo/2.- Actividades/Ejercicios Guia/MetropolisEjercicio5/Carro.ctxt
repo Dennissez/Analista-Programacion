@@ -1,0 +1,21 @@
+#BlueJ class context
+comment0.target=Carro
+comment1.params=
+comment1.target=Carro()
+comment2.params=
+comment2.target=float\ getCantidadGasolina()
+comment3.params=
+comment3.target=java.lang.String\ getMarca()
+comment4.params=
+comment4.target=char\ getCategoria()
+comment5.params=cantidadGasolina
+comment5.target=void\ setCantidadGasolina(float)
+comment6.params=marca
+comment6.target=void\ setMarca(java.lang.String)
+comment7.params=categoria
+comment7.target=void\ setCategoria(char)
+comment8.params=
+comment8.target=void\ avanzar()
+comment9.params=
+comment9.target=void\ act()
+numComments=10
