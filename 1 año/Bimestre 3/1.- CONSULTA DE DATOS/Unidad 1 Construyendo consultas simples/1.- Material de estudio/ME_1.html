@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPLACEX - Consulta de Datos (Unidad 1)</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; height: 100vh; background-color: #f4f6f9; }
+        
+        /* Contenedor del PDF */
+        .pdf-section { flex: 7; height: 100%; border-right: 2px solid #ddd; }
+        iframe { width: 100%; height: 100%; border: none; }
+        
+        /* Contenedor Lateral (Audio y Navegación) */
+        .sidebar { flex: 3; padding: 25px; display: flex; flex-direction: column; background: #ffffff; overflow-y: auto; }
+        h2 { color: #1a365d; margin-bottom: 5px; font-size: 1.4rem; }
+        p.subtitle { color: #666; font-size: 0.9rem; margin-bottom: 20px; }
+        
+        /* Estilos del Reproductor */
+        .audio-player { background: #eef2f7; padding: 15px; border-radius: 10px; margin-bottom: 25px; border: 1px solid #dce4ec; }
+        audio { width: 100%; margin-top: 10px; }
+        
+        /* Lista de Temas con Marcadores de Tiempo */
+        .timestamps-title { font-size: 1.05rem; color: #2d3748; margin-bottom: 12px; }
+        .timestamp-list { list-style: none; }
+        .timestamp-list li { margin-bottom: 8px; }
+        .timestamp-btn { 
+            width: 100%; 
+            text-align: left; 
+            padding: 10px 12px; 
+            background: #f8fafc; 
+            border: 1px solid #e2e8f0; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-size: 0.88rem; 
+            color: #2b6cb0;
+            transition: all 0.2s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .timestamp-btn:hover { background: #ebf8ff; border-color: #3182ce; }
+        .time-badge { background: #3182ce; color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <!-- VISOR DE PDF (Lado Izquierdo) -->
+    <div class="pdf-section">
+        <iframe src="ME_1.pdf"></iframe>
+    </div>
+
+    <!-- PANEL LATERAL CON AUDIO (Lado Derecho) -->
+    <div class="sidebar">
+        <h2>Unidad 1: SELECT</h2>
+        <p class="subtitle">Consulta de Datos - IPLACEX</p>
+
+        <!-- Reproductor de Audio -->
+        <div class="audio-player">
+            <strong>🎧 Audiolibro ME 1:</strong>
+            <audio id="studyAudio" controls>
+                <source src="ME_1_Audiolibro.mp3" type="audio/mpeg">
+                Tu navegador no soporta el elemento de audio.
+            </audio>
+        </div>
+
+        <!-- Atajos de Tiempo (Timestamps) -->
+        <h3 class="timestamps-title">📌 Saltar a un Tema:</h3>
+        <ul class="timestamp-list">
+            <li><button class="timestamp-btn" onclick="seekAudio(0)"><span>01. Introducción & Ideas Fuerza</span> <span class="time-badge">00:00</span></button></li>
+            <li><button class="timestamp-btn" onclick="seekAudio(85)"><span>02. Sentencia SELECT & Capacidades</span> <span class="time-badge">01:25</span></button></li>
+            <li><button class="timestamp-btn" onclick="seekAudio(173)"><span>03. Operadores Aritméticos</span> <span class="time-badge">02:53</span></button></li>
+            <li><button class="timestamp-btn" onclick="seekAudio(228)"><span>04. Operaciones con NULOS</span> <span class="time-badge">03:48</span></button></li>
+            <li><button class="timestamp-btn" onclick="seekAudio(244)"><span>05. Uso de Alias</span> <span class="time-badge">04:04</span></button></li>
+            <li><button class="timestamp-btn" onclick="seekAudio(307)"><span>06. Concatenación (||)</span> <span class="time-badge">05:07</span></button></li>
+            <li><button class="timestamp-btn" onclick="seekAudio(378)"><span>07. Valores Duplicados (DISTINCT)</span> <span class="time-badge">06:18</span></button></li>
+            <li><button class="timestamp-btn" onclick="seekAudio(430)"><span>08. Cláusula ORDER BY</span> <span class="time-badge">07:10</span></button></li>
+            <li><button class="timestamp-btn" onclick="seekAudio(506)"><span>09. Filtros con WHERE</span> <span class="time-badge">08:26</span></button></li>
+            <li><button class="timestamp-btn" onclick="seekAudio(595)"><span>10. Operadores (BETWEEN, IN, LIKE, NULL)</span> <span class="time-badge">09:55</span></button></li>
+        </ul>
+    </div>
+
+    <script>
+        function seekAudio(seconds) {
+            const audio = document.getElementById('studyAudio');
+            audio.currentTime = seconds;
+            audio.play();
+        }
+    </script>
+</body>
+</html>
