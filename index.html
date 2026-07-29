@@ -3,31 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analista Programación - Mis Proyectos</title>
+    <title>Analista Programación - IPLACEX</title>
     <style>
-        :root { --primary: #2f855a; --bg: #f7fafc; --card-bg: #ffffff; --text: #2d3748; }
-        body { font-family: sans-serif; background-color: var(--bg); color: var(--text); max-width: 700px; margin: 40px auto; padding: 0 20px; line-height: 1.6; }
-        h1, .subtitle { text-align: center; }
-        .subtitle { color: #718096; margin-bottom: 30px; }
-        .card { background: var(--card-bg); border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        h2 { color: var(--primary); border-bottom: 2px solid #edf2f7; padding-bottom: 8px; margin-top: 0; }
-        ul { list-style: none; padding: 0; }
-        .btn-link { display: block; background-color: #edf2f7; color: #2b6cb0; padding: 12px 15px; text-decoration: none; border-radius: 6px; font-weight: 500; }
-        .btn-link:hover { background-color: #2b6cb0; color: white; }
+        :root {
+            --primary: #2b6cb0;
+            --success: #2f855a;
+            --bg: #f7fafc;
+            --card-bg: #ffffff;
+            --text: #2d3748;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            max-width: 750px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 3px solid #e2e8f0;
+            padding-bottom: 20px;
+        }
+        .header h1 {
+            color: #1a202c;
+            margin-bottom: 5px;
+            font-size: 2.2rem;
+        }
+        .header p {
+            color: #718096;
+            font-size: 1.1rem;
+            margin: 0;
+        }
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border-left: 5px solid #cbd5e0;
+        }
+        .card.active {
+            border-left-color: var(--success);
+        }
+        .card h2 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .card.active h2 {
+            color: var(--success);
+        }
+        .grid-links {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+        @media (min-width: 600px) {
+            .grid-links {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        .btn-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #edf2f7;
+            color: var(--primary);
+            padding: 14px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+        .btn-link:hover {
+            background-color: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(43, 108, 176, 0.2);
+        }
+        .placeholder-text {
+            color: #a0aec0;
+            font-style: italic;
+            margin: 5px 0 0 0;
+        }
     </style>
 </head>
 <body>
-    <h1>Portafolio de Estudios</h1>
-    <p class="subtitle">Dennisse Zúñiga — Analista Programación</p>
-    <div class="card">
-        <h2>📚 Bimestre 3</h2>
-        <ul>
-            <li>
-                <a class="btn-link" href="./1 año/Bimestre 3/1.- CONSULTA DE DATOS/Unidad 1 Construyendo consultas simples/1.- Material de estudio/semana 1/">
-                    📂 Consulta de Datos — Semana 1 (Ver Sitio Web)
-                </a>
-            </li>
-        </ul>
+
+    <div class="header">
+        <h1>Portafolio de Estudios</h1>
+        <p>Dennisse Zúñiga — Analista Programación (IPLACEX)</p>
     </div>
+
+    <!-- BIMESTRE 3 (ACTIVO) -->
+    <div class="card active">
+        <h2>📚 Bimestre 3: Consulta de Datos</h2>
+        <div class="grid-links">
+            <!-- Enlace Semana 1 -->
+            <a class="btn-link" href="./1 año/Bimestre 3/1.- CONSULTA DE DATOS/Unidad 1 Construyendo consultas simples/1.- Material de estudio/semana 1/">
+                🔍 Ver Semana 1 (SELECT)
+            </a>
+            
+            <!-- Enlace Semana 2 -->
+            <a class="btn-link" href="./1 año/Bimestre 3/1.- CONSULTA DE DATOS/Unidad 1 Construyendo consultas simples/1.- Material de estudio/semana 2/">
+                📖 Ver Semana 2
+            </a>
+        </div>
+    </div>
+
+    <!-- BIMESTRE 2 -->
+    <div class="card">
+        <h2>📘 Bimestre 2</h2>
+        <p class="placeholder-text">📁 Carpeta disponible en tu repositorio. Enlaces listos para conectar cuando quieras.</p>
+    </div>
+
+    <!-- BIMESTRE 1 -->
+    <div class="card">
+        <h2>📗 Bimestre 1</h2>
+        <p class="placeholder-text">📁 Carpeta disponible en tu repositorio. Enlaces listos para conectar cuando quieras.</p>
+    </div>
+
 </body>
 </html>
