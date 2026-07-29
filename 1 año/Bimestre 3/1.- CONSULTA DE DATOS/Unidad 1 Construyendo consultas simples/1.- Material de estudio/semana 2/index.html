@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nivelación Previa y Contenido: Consulta de Datos - Semana 2</title>
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #334155;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-blue: #38bdf8;
+            --accent-green: #4ade80;
+            --accent-amber: #fbbf24;
+            --accent-purple: #c084fc;
+            --accent-red: #f87171;
+            --border-color: #475569;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            padding: 1rem 2rem;
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .badge {
+            background-color: #0369a1;
+            color: #e0f2fe;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .main-container {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 2.5rem 3rem;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+            overflow-y: auto;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .slide-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .slide-tag {
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.25rem;
+        }
+
+        .tag-previo { color: var(--accent-amber); }
+        .tag-semana2 { color: var(--accent-green); }
+
+        .slide-title {
+            font-size: 2rem;
+            color: var(--text-main);
+            font-weight: 700;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            flex: 1;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem;
+            flex: 1;
+        }
+
+        .card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card p, .card li {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .card ul, .card ol {
+            padding-left: 1.25rem;
+        }
+
+        code {
+            font-family: 'Consolas', 'Courier New', monospace;
+            background-color: #0f172a;
+            color: var(--accent-blue);
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            font-size: 0.9em;
+        }
+
+        pre {
+            font-family: 'Consolas', 'Courier New', monospace;
+            background-color: #0f172a;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--border-color);
+            overflow-x: auto;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .sql-keyword { color: var(--accent-purple); font-weight: bold; }
+        .sql-function { color: var(--accent-blue); }
+        .sql-string { color: var(--accent-green); }
+        .sql-comment { color: #64748b; font-style: italic; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        th, td {
+            padding: 0.6rem 0.8rem;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--bg-card);
+            color: var(--accent-blue);
+        }
+
+        footer {
+            padding: 0.75rem 2rem;
+            background-color: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .controls {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        button {
+            background-color: var(--bg-card);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 0.4rem 1rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background-color: var(--accent-blue);
+            color: var(--bg-primary);
+        }
+
+        button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .slide-indicator {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .alert-box {
+            background-color: rgba(251, 191, 36, 0.1);
+            border-left: 4px solid var(--accent-amber);
+            padding: 0.75rem 1rem;
+            border-radius: 0.25rem;
+            font-size: 0.9rem;
+            color: #fef08a;
+        }
+
+        .alert-box-red {
+            background-color: rgba(248, 113, 113, 0.1);
+            border-left: 4px solid var(--accent-red);
+            padding: 0.75rem 1rem;
+            border-radius: 0.25rem;
+            font-size: 0.9rem;
+            color: #fca5a5;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <span>💾</span> Consulta de Datos — Nivelación y Semana 2
+        </div>
+        <div class="badge">IPLACEX / Informática</div>
+    </header>
+
+    <div class="main-container">
+
+        <!-- SLIDE 1: Portada -->
+        <div class="slide active">
+            <div style="margin: auto; text-align: center; max-width: 800px;">
+                <p class="slide-tag tag-previo">Guía de Estudio Integral</p>
+                <h1 style="font-size: 2.8rem; margin-bottom: 1rem; color: var(--accent-blue);">Pre-requisitos y Contenido Semana 2</h1>
+                <p style="font-size: 1.2rem; color: var(--text-muted); margin-bottom: 2rem;">
+                    Todo lo que necesitas saber <strong>antes</strong> de estudiar el material de la Semana 2 y el desglose paso a paso de sus contenidos (Operadores Lógicos, DML e Instrucciones).
+                </p>
+                <div style="display: flex; justify-content: center; gap: 1rem;">
+                    <div class="card" style="padding: 1rem 1.5rem; border-color: var(--accent-amber);">
+                        <strong style="color: var(--accent-amber);">Módulo 1: Requisitos Previos</strong>
+                        <span style="font-size: 0.85rem; color: var(--text-muted);">Conceptos teóricos necesarios</span>
+                    </div>
+                    <div class="card" style="padding: 1rem 1.5rem; border-color: var(--accent-green);">
+                        <strong style="color: var(--accent-green);">Módulo 2: Semana 2 (DML)</strong>
+                        <span style="font-size: 0.85rem; color: var(--text-muted);">AND, OR, NOT, INSERT, UPDATE, DELETE</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: Requisito 1 - Transacciones y COMMIT -->
+        <div class="slide">
+            <div class="slide-header">
+                <p class="slide-tag tag-previo">Módulo 1: Requisito Previo obligatorio</p>
+                <h2 class="slide-title">¿Qué es una Transacción y el comando COMMIT?</h2>
+            </div>
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-title" style="color: var(--accent-amber);">
+                        <span>🔄</span> Concepto de Transacción
+                    </div>
+                    <p>En bases de datos, las operaciones de modificación (DML) no alteran el disco de manera definitiva inmediatamente.</p>
+                    <p>Una <strong>Transacción</strong> es un conjunto de instrucciones DML que se ejecutan como una sola unidad de trabajo en la memoria temporal del servidor.</p>
+                    <div class="alert-box" style="margin-top: 0.5rem;">
+                        <strong>Principio:</strong> Si algo falla durante la transacción, se puede deshacer todo para no dejar la base de datos corrupta o a medias.
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title" style="color: var(--accent-green);">
+                        <span>✅</span> Confirmación con COMMIT
+                    </div>
+                    <p>La semana 2 enfatiza que tus cambios de escritura no son permanentes hasta ejecutar un <code>COMMIT</code>.</p>
+                    <ul>
+                        <li><strong>Estado Pendiente:</strong> Solo tú ves los cambios en tu sesión actual. Si la conexión cae, se pierden.</li>
+                        <li><strong>COMMIT:</strong> Guarda de forma definitiva y física en la base de datos todos los cambios pendientes.</li>
+                        <li><strong>ROLLBACK:</strong> Cancela y deshace todas las modificaciones no guardadas.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: Requisito 2 - Claves y Tipos de Datos -->
+        <div class="slide">
+            <div class="slide-header">
+                <p class="slide-tag tag-previo">Módulo 1: Requisito Previo obligatorio</p>
+                <h2 class="slide-title">Claves y Tipos de Datos al Insertar/Modificar</h2>
+            </div>
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-title" style="color: var(--accent-amber);">
+                        <span>🔑</span> Reglas de Integridad
+                    </div>
+                    <p>Antes de modificar o insertar filas, debes recordar estas restricciones básicas:</p>
+                    <ul>
+                        <li><strong>Primary Key (PK):</strong> No permite valores duplicados ni nulos. Si intentas insertar un ID repetido, la BD arrojará error.</li>
+                        <li><strong>Foreign Key (FK):</strong> No puedes insertar un valor que no exista previamente en la tabla de origen (ej: asignar un departamento 999 si no existe en la tabla de departamentos).</li>
+                        <li><strong>NOT NULL:</strong> Si una columna exige dato obligatorio, no puedes omitirla ni asignarle <code>NULL</code>.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="card-title" style="color: var(--accent-blue);">
+                        <span>📝</span> Formato de Datos
+                    </div>
+                    <p>Recuerda la sintaxis correcta según el tipo de dato:</p>
+
+                    <table>
+                        <tr>
+                            <th>Tipo de Dato</th>
+                            <th>Regla en SQL</th>
+                            <th>Ejemplo</th>
+                        </tr>
+                        <tr>
+                            <td><strong>Números</strong></td>
+                            <td>Sin comillas</td>
+                            <td><code>15000</code>, <code>10.5</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Textos</strong></td>
+                            <td>Comillas simples obligatorio</td>
+                            <td><code>'Finance'</code>, <code>'SA_REP'</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Fechas</strong></td>
+                            <td>Comillas simples / Funciones</td>
+                            <td><code>'01/01/2026'</code>, <code>SYSDATE</code></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: Semana 2 - Operadores Lógicos -->
+        <div class="slide">
+            <div class="slide-header">
+                <p class="slide-tag tag-semana2">Módulo 2: Semana 2 — Filtrado Avanzado</p>
+                <h2 class="slide-title">Operadores Lógicos: AND, OR y NOT</h2>
+            </div>
+            <div class="grid-3">
+                <div class="card">
+                    <div class="card-title" style="color: var(--accent-blue);">AND (Y lógico)</div>
+                    <p>Exige que <strong>TODAS</strong> las condiciones sean verdaderas para incluir la fila en el resultado.</p>
+                    <pre><span class="sql-keyword">SELECT</span> * <span class="sql-keyword">FROM</span> employees
+<span class="sql-keyword">WHERE</span> salary >= 10000
+  <span class="sql-keyword">AND</span> job_id <span class="sql-keyword">LIKE</span> <span class="sql-string">'%MAN%'</span>;</pre>
+                    <p style="font-size: 0.85rem;">Muestra solo empleados que ganen >= 10000 <strong>Y ADEMÁS</strong> su cargo contenga 'MAN'.</p>
+                </div>
+                <div class="card">
+                    <div class="card-title" style="color: var(--accent-green);">OR (O lógico)</div>
+                    <p>Basta con que <strong>AL MENOS UNA</strong> de las condiciones sea verdadera.</p>
+                    <pre><span class="sql-keyword">SELECT</span> * <span class="sql-keyword">FROM</span> employees
+<span class="sql-keyword">WHERE</span> salary >= 17000
+   <span class="sql-keyword">OR</span> hire_date > <span class="sql-string">'01/01/2008'</span>;</pre>
+                    <p style="font-size: 0.85rem;">Muestra si ganan >= 17000 <strong>O BIEN</strong> si ingresaron después de 2008.</p>
+                </div>
+                <div class="card">
+                    <div class="card-title" style="color: var(--accent-purple);">NOT (Negación)</div>
+                    <p><strong>Invierte</strong> el resultado lógico de la condición que le sigue.</p>
+                    <pre><span class="sql-keyword">SELECT</span> * <span class="sql-keyword">FROM</span> employees
+<span class="sql-keyword">WHERE</span> job_id <span class="sql-keyword">NOT IN</span> 
+ (<span class="sql-string">'IT_PROG'</span>, <span class="sql-string">'SA_REP'</span>);</pre>
+                    <p style="font-size: 0.85rem;">Muestra todos los empleados cuyo cargo <strong>NO SEA</strong> IT_PROG ni SA_REP.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: Precedencia de Operadores -->
+        <div class="slide">
+            <div class="slide-header">
+                <p class="slide-tag tag-semana2">Módulo 2: Semana 2 — Filtrado Avanzado</p>
+                <h2 class="slide-title">Reglas de Precedencia y Uso de Paréntesis</h2>
+            </div>
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-title" style="color: var(--accent-amber);">
+                        <span>⚖️</span> Orden de Evaluación por Defecto
+                    </div>
+                    <p>Cuando mezclas varios operadores en un <code>WHERE</code>, SQL los evalúa en este estricto orden de prioridad:</p>
+                    <ol>
+                        <li>Operadores Aritméticos (<code>*</code>, <code>/</code>, <code>+</code>, <code>-</code>)</li>
+                        <li>Operador de Concatenación (<code>||</code>)</li>
+                        <li>Comparaciones (<code>=</code>, <code>></code>, <code><</code>, <code>>=</code>, <code><=</code>)</li>
+                        <li><code>IS NULL</code>, <code>LIKE</code>, <code>IN</code></li>
+                        <li><code>BETWEEN</code></li>
+                        <li>Condición Lógica <code>NOT</code></li>
+                        <li>Condición Lógica <code>AND</code> (Se evalúa ANTES que el OR)</li>
+                        <li>Condición Lógica <code>OR</code></li>
+                    </ol>
+                </div>
+                <div class="card">
+                    <div class="card-title" style="color: var(--accent-red);">
+                        <span>⚠️</span> ¡Cuidado con la trampa de AND y OR!
+                    </div>
+                    <p>Dado que <code>AND</code> se ejecuta antes que <code>OR</code>, el resultado puede cambiar radicalmente si no usas paréntesis:</p>
+
+                    <pre><span class="sql-comment">-- Muestra SA_REP de cualquier sueldo, O AD_PRES con sueldo > 15000</span>
+<span class="sql-keyword">WHERE</span> job_id = <span class="sql-string">'SA_REP'</span> <span class="sql-keyword">OR</span> job_id = <span class="sql-string">'AD_PRES'</span> <span class="sql-keyword">AND</span> salary > 15000;
+
+<span class="sql-comment">-- Usando paréntesis: Muestra SA_REP o AD_PRES, PERO AMBOS obligatoriamente > 15000</span>
+<span class="sql-keyword">WHERE</span> (job_id = <span class="sql-string">'SA_REP'</span> <span class="sql-keyword">OR</span> job_id = <span class="sql-string">'AD_PRES'</span>) <span class="sql-keyword">AND</span> salary > 15000;</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: Sentencia INSERT -->
+        <div class="slide">
+            <div class="slide-header">
+                <p class="slide-tag tag-semana2">Módulo 2: Semana 2 — Escritura de Datos (DML)</p>
+                <h2 class="slide-title">Sentencia INSERT: Agregar Filas Nuevas</h2>
+            </div>
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-title" style="color: var(--accent-green);">
+                        <span>➕</span> Formas de Insertar
+                    </div>
+                    <p><strong>1. Declarando Columnas (Recomendado):</strong> Es más seguro porque no depende del orden estricto de la tabla.</p>
+                    <pre><span class="sql-keyword">INSERT INTO</span> departments (department_id, department_name, manager_id, location_id)
+<span class="sql-keyword">VALUES</span> (70, <span class="sql-string">'Public Relations'</span>, 100, 1700);</pre>
+
+                    <p style="margin-top: 0.5rem;"><strong>2. Sintaxis Abreviada:</strong> Omites las columnas, pero debes pasar los valores en el orden exacto de la tabla.</p>
+                    <pre><span class="sql-keyword">INSERT INTO</span> departments
+<span class="sql-keyword">VALUES</span> (70, <span class="sql-string">'Public Relations'</span>, 100, 1700);</pre>
+                </div>
+                <div class="card">
+                    <div class="card-title" style="color: var(--accent-blue);">
+                        <span>🔮</span> Inserción de Valores Nulos y Especiales
+                    </div>
+                    <p><strong>Campos Nulos:</strong></p>
+                    <ul>
+                        <li><em>Explícita:</em> Escribes la palabra <code>NULL</code> en <code>VALUES</code>.</li>
+                        <li><em>Implícita:</em> Omites la columna en la lista de campos.</li>
+                    </ul>
+
+                    <p style="margin-top: 0.5rem;"><strong>Valores Especiales (Ej: Fecha actual del sistema):</strong></p>
+                    <pre><span class="sql-keyword">INSERT INTO</span> employees (employee_id, last_name, hire_date, ...)
+<span class="sql-keyword">VALUES</span> (113, <span class="sql-string">'Popp'</span>, <span class="sql-function">SYSDATE</span>, ...);</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: Secuencias en Oracle -->
+        <div class="slide">
+            <div class="slide-header">
+                <p class="slide-tag tag-semana2">Módulo 2: Semana 2 — Escritura de Datos (DML)</p>
+                <h2 class="slide-title">Objeto Secuencia (SEQUENCE)</h2>
+            </div>
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-title" style="color: var(--accent-purple);">
+                        <span>🔢</span> ¿Qué es una Secuencia?
+                    </div>
+                    <p>Un objeto independiente de la base de datos que genera números correlativos automáticos (ideal para autoincrementar la <strong>Clave Primaria</strong>).</p>
+
+                    <pre><span class="sql-keyword">CREATE SEQUENCE</span> dept_deptid_seq
+  <span class="sql-keyword">START WITH</span> 120
+  <span class="sql-keyword">INCREMENT BY</span> 10
+  <span class="sql-keyword">MAXVALUE</span> 9999
+  <span class="sql-keyword">NOCYCLE</span>;</pre>
+                </div>
+                <div class="card">
+                    <div class="card-title" style="color: var(--accent-green);">
+                        <span>⚙️</span> Uso con Pseudocolumnas
+                    </div>
+                    <ul>
+                        <li><code>NEXTVAL</code>: Incrementa y devuelve el **siguiente** valor disponible.</li>
+                        <li><code>CURRVAL</code>: Muestra el valor **actual** generado en la sesión.</li>
+                    </ul>
+
+                    <p style="margin-top: 0.5rem;"><strong>Ejemplo de uso al insertar:</strong></p>
+                    <pre><span class="sql-keyword">INSERT INTO</span> departments (department_id, department_name, location_id)
+<span class="sql-keyword">VALUES</span> (dept_deptid_seq.<span class="sql-function">NEXTVAL</span>, <span class="sql-string">'Support'</span>, 2500);</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: Sentencia UPDATE -->
+        <div class="slide">
+            <div class="slide-header">
+                <p class="slide-tag tag-semana2">Módulo 2: Semana 2 — Modificación de Datos (DML)</p>
+                <h2 class="slide-title">Sentencia UPDATE: Modificar Registros</h2>
+            </div>
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-title" style="color: var(--accent-amber);">
+                        <span>✏️</span> Sintaxis y Modificación Filtrada
+                    </div>
+                    <p>Permite cambiar valores en una o más columnas de registros existentes.</p>
+                    <pre><span class="sql-keyword">UPDATE</span> employees
+<span class="sql-keyword">SET</span> salary = salary * 1.25
+<span class="sql-keyword">WHERE</span> salary < 5000;</pre>
+                    <p style="font-size: 0.85rem;">Aumenta un 25% el sueldo, pero <strong>ÚNICAMENTE</strong> a los empleados que ganan menos de 5000.</p>
+                </div>
+                <div class="card">
+                    <div class="card-title" style="color: var(--accent-red);">
+                        <span>🚨</span> ¡Peligro! Omitir la cláusula WHERE
+                    </div>
+                    <p>Si ejecutas un <code>UPDATE</code> sin incluir la cláusula <code>WHERE</code>, se modificará <strong>TODA LA TABLA</strong> sin excepción.</p>
+
+                    <pre><span class="sql-comment">-- ¡CUIDADO! Esto cambia el sueldo a TODOS los empleados de la BD</span>
+<span class="sql-keyword">UPDATE</span> employees
+<span class="sql-keyword">SET</span> salary = 10000;</pre>
+                    <div class="alert-box-red">
+                        <strong>Regla de oro:</strong> Revisa siempre dos veces la cláusula <code>WHERE</code> antes de ejecutar un UPDATE.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 9: Sentencias DELETE vs TRUNCATE -->
+        <div class="slide">
+            <div class="slide-header">
+                <p class="slide-tag tag-semana2">Módulo 2: Semana 2 — Eliminación de Datos</p>
+                <h2 class="slide-title">DELETE vs TRUNCATE: Limpieza de Registros</h2>
+            </div>
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-title" style="color: var(--accent-red);">
+                        <span>🗑️</span> Sentencia DELETE (DML)
+                    </div>
+                    <p>Elimina filas específicas mediante una condición. Se puede deshacer con <code>ROLLBACK</code> si no has hecho commit.</p>
+                    <pre><span class="sql-comment">-- Elimina registros específicos</span>
+<span class="sql-keyword">DELETE FROM</span> departments
+<span class="sql-keyword">WHERE</span> department_name = <span class="sql-string">'Finance'</span>;
+
+<span class="sql-comment">-- Si omites WHERE, borra todas las filas pero mantiene el espacio</span>
+<span class="sql-keyword">DELETE FROM</span> employees;</pre>
+                </div>
+                <div class="card">
+                    <div class="card-title" style="color: var(--accent-amber);">
+                        <span>⚡</span> Sentencia TRUNCATE (DDL)
+                    </div>
+                    <p>Elimina <strong>TODAS</strong> las filas de una tabla de forma ultra rápida.</p>
+                    <pre><span class="sql-keyword">TRUNCATE TABLE</span> employees;</pre>
+                    <ul style="margin-top: 0.5rem;">
+                        <li><strong>Diferencia clave:</strong> Es una instrucción DDL (no DML).</li>
+                        <li><strong>COMMIT implícito:</strong> No se puede deshacer con <code>ROLLBACK</code>. Los datos se pierden de inmediato.</li>
+                        <li>Liberación de espacio en memoria instantánea.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 10: Resumen Final -->
+        <div class="slide">
+            <div class="slide-header">
+                <p class="slide-tag tag-semana2">Módulo 2: Conclusión</p>
+                <h2 class="slide-title">Resumen de Comandos DML y Siguientes Pasos</h2>
+            </div>
+            <div class="card" style="margin-bottom: 1.5rem;">
+                <table>
+                    <tr>
+                        <th>Comando</th>
+                        <th>Acción</th>
+                        <th>Requiere WHERE</th>
+                        <th>Reversible antes de COMMIT</th>
+                    </tr>
+                    <tr>
+                        <td><code>INSERT</code></td>
+                        <td>Añade filas nuevas</td>
+                        <td>No</td>
+                        <td>Sí (con ROLLBACK)</td>
+                    </tr>
+                    <tr>
+                        <td><code>UPDATE</code></td>
+                        <td>Modifica campos existentes</td>
+                        <td><strong>Sí</strong> (salvo cambio masivo)</td>
+                        <td>Sí (con ROLLBACK)</td>
+                    </tr>
+                    <tr>
+                        <td><code>DELETE</code></td>
+                        <td>Elimina filas</td>
+                        <td><strong>Sí</strong> (salvo vaciado total)</td>
+                        <td>Sí (con ROLLBACK)</td>
+                    </tr>
+                    <tr>
+                        <td><code>TRUNCATE</code></td>
+                        <td>Vacía la tabla completa</td>
+                        <td>No (siempre borra todo)</td>
+                        <td><strong>NO</strong> (COMMIT automático)</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="alert-box" style="text-align: center;">
+                🎉 ¡Ya estás listo para subir este archivo a tu repositorio de GitHub Pages o repasarlo directamente!
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <div class="slide-indicator">
+            Diapositiva <span id="current-slide">1</span> de <span id="total-slides">10</span>
+        </div>
+        <div class="controls">
+            <button id="prev-btn" onclick="changeSlide(-1)" disabled>Anterior</button>
+            <button id="next-btn" onclick="changeSlide(1)">Siguiente</button>
+        </div>
+    </footer>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('total-slides').textContent = totalSlides;
+
+        function updateSlide() {
+            slides.forEach((slide, index) => {
+                slide.classList.toggle('active', index === currentSlide);
+            });
+
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+            document.getElementById('prev-btn').disabled = currentSlide === 0;
+            document.getElementById('next-btn').disabled = currentSlide === totalSlides - 1;
+        }
+
+        function changeSlide(direction) {
+            currentSlide += direction;
+            if (currentSlide < 0) currentSlide = 0;
+            if (currentSlide >= totalSlides) currentSlide = totalSlides - 1;
+            updateSlide();
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'Space') {
+                changeSlide(1);
+            } else if (e.key === 'ArrowLeft') {
+                changeSlide(-1);
+            }
+        });
+    </script>
+</body>
+</html>
