@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPLACEX - primeros pasos #C (Unidad 1)</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; height: 100vh; background-color: #f4f6f9; }
+        
+        /* Contenedor del PDF */
+        .pdf-section { flex: 7; height: 100%; border-right: 2px solid #ddd; }
+        iframe { width: 100%; height: 100%; border: none; }
+        
+        /* Contenedor Lateral (Audio y Navegación) */
+        .sidebar { flex: 3; padding: 25px; display: flex; flex-direction: column; background: #ffffff; overflow-y: auto; }
+        h2 { color: #1a365d; margin-bottom: 5px; font-size: 1.4rem; }
+        p.subtitle { color: #666; font-size: 0.9rem; margin-bottom: 20px; }
+        
+        /* Estilos del Reproductor */
+        .audio-player { background: #eef2f7; padding: 15px; border-radius: 10px; margin-bottom: 25px; border: 1px solid #dce4ec; }
+        audio { width: 100%; margin-top: 10px; }
+        
+        /* Lista de Temas con Marcadores de Tiempo */
+        .timestamps-title { font-size: 1.05rem; color: #2d3748; margin-bottom: 12px; }
+        .timestamp-list { list-style: none; }
+        .timestamp-list li { margin-bottom: 8px; }
+        .timestamp-btn { 
+            width: 100%; 
+            text-align: left; 
+            padding: 10px 12px; 
+            background: #f8fafc; 
+            border: 1px solid #e2e8f0; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-size: 0.88rem; 
+            color: #2b6cb0;
+            transition: all 0.2s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .timestamp-btn:hover { background: #ebf8ff; border-color: #3182ce; }
+        .time-badge { background: #3182ce; color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <!-- VISOR DE PDF (Lado Izquierdo) -->
+    <div class="pdf-section">
+        <iframe src="ME_1.pdf"></iframe>
+    </div>
+
+    <!-- PANEL LATERAL CON AUDIO (Lado Derecho) -->
+    <div class="sidebar">
+        <h2>Unidad 1: primeros pasos C#</h2>
+        <p class="subtitle">Programación - IPLACEX</p>
+
+        <!-- Reproductor de Audio -->
+        <div class="audio-player">
+            <strong>🎧 Audiolibro ME 1:</strong>
+            <audio id="studyAudio" controls>
+                <source src="ME_1_Audiolibro.mp3" type="audio/mpeg">
+                Tu navegador no soporta el elemento de audio.
+            </audio>
+        </div>
+
+        <!-- Atajos de Tiempo (Timestamps) -->
+        <h3 class="timestamps-title">📌 Saltar a un Tema:</h3>
+        <ul class="timestamp-list">
+            <li><button class="timestamp-btn" onclick="seekAudio(7)"><span>01. Consideraciones Previas</span> <span class="time-badge">00:07</span></button></li>
+            <li><button class="timestamp-btn" onclick="seekAudio(47)"><span>02. Introducción</span> <span class="time-badge">00:47</span></button></li>
+            <li><button class="timestamp-btn" onclick="seekAudio(93)"><span>03. Ideas fuerza</span> <span class="time-badge">01:33</span></button></li>
+            <li><button class="timestamp-btn" onclick="seekAudio(145)"><span>04. C#, NET y Tipos de proyectos</span> <span class="time-badge">02:25</span></button></li>
+            <li><button class="timestamp-btn" onclick="seekAudio(559)"><span>05. Visual Studio Code</span> <span class="time-badge">09:19</span></button></li>
+            <li><button class="timestamp-btn" onclick="seekAudio(744)"><span>06. Tipos de Datos</span> <span class="time-badge">12:24</span></button></li>
+            <li><button class="timestamp-btn" onclick="seekAudio(933)"><span>07. Conclusión</span> <span class="time-badge">15:33</span></button></li>
+        </ul>
+    </div>
+
+    <script>
+        function seekAudio(seconds) {
+            const audio = document.getElementById('studyAudio');
+            audio.currentTime = seconds;
+            audio.play();
+        }
+    </script>
+</body>
+</html>
