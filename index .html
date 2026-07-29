@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analista Programación - IPLACEX</title>
+    <style>
+        :root {
+            --primary: #2b6cb0;
+            --success: #2f855a;
+            --warning: #b7791f;
+            --accent: #4c51bf;
+            --bg: #f7fafc;
+            --card-bg: #ffffff;
+            --text: #2d3748;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #e2e8f0;
+            padding-bottom: 20px;
+        }
+        .header h1 { color: #1a202c; margin-bottom: 5px; font-size: 2.2rem; }
+        .header p { color: #718096; font-size: 1.1rem; margin: 0; }
+        
+        /* ESTILOS DE DESPLEGABLES (<details> y <summary>) */
+        details {
+            background-color: #ffffff;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+            overflow: hidden;
+        }
+
+        /* Estilo para los Años */
+        details.year-accordion {
+            border: 2px solid #cbd5e0;
+            margin-bottom: 25px;
+        }
+        details.year-accordion > summary {
+            background-color: #edf2f7;
+            color: #1a202c;
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 15px 20px;
+            cursor: pointer;
+            list-style: none; /* Oculta la flecha por defecto */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        details.year-accordion > summary::-webkit-details-marker {
+            display: none;
+        }
+        details.year-accordion > summary::after {
+            content: "▼";
+            font-size: 1rem;
+            color: var(--primary);
+            transition: transform 0.2s ease;
+        }
+        details.year-accordion[open] > summary::after {
+            transform: rotate(180deg);
+        }
+
+        /* Estilo para los Bimestres dentro de cada Año */
+        details.bimestre-accordion {
+            margin: 15px 20px;
+            border-left: 4px solid var(--primary);
+        }
+        details.bimestre-accordion > summary {
+            background-color: #f8fafc;
+            color: #2d3748;
+            font-size: 1.2rem;
+            font-weight: 600;
+            padding: 12px 15px;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        details.bimestre-accordion > summary::-webkit-details-marker {
+            display: none;
+        }
+        details.bimestre-accordion > summary::after {
+            content: "►";
+            font-size: 0.8rem;
+            color: #718096;
+            transition: transform 0.2s ease;
+        }
+        details.bimestre-accordion[open] > summary::after {
+            transform: rotate(90deg);
+        }
+
+        .accordion-content {
+            padding: 20px;
+        }
+
+        /* TARJETAS Y CONTENIDO INTERNO */
+        .card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--primary);
+        }
+        .card:last-child {
+            margin-bottom: 0;
+        }
+        .card h2 { margin-top: 0; margin-bottom: 15px; color: #1a202c; font-size: 1.3rem; }
+        
+        .unidad-box {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .unidad-box:last-child {
+            margin-bottom: 0;
+        }
+        .unidad-box h4 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #4a5568;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .grid-links {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+        @media (min-width: 600px) {
+            .grid-links { grid-template-columns: 1fr 1fr; }
+        }
+        
+        .btn-link {
+            display: block;
+            background-color: #edf2f7;
+            color: var(--primary);
+            padding: 10px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+        .btn-link:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        .placeholder {
+            color: #a0aec0;
+            font-style: italic;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Portafolio de Estudios</h1>
+        <p>Dennisse Zúñiga — Analista Programación (IPLACEX)</p>
+    </div>
+
+    <!-- ==================== AÑO 1 (Desplegado por defecto con 'open') ==================== -->
+    <details class="year-accordion" open>
+        <summary>📅 Año 1</summary>
+        
+        <div class="accordion-content">
+
+            <!-- BIMESTRE 1 -->
+            <details class="bimestre-accordion">
+                <summary>📚 Bimestre 1</summary>
+                <div class="accordion-content">
+                    <span class="placeholder">Asignaturas de Bimestre 1 no registradas aún.</span>
+                </div>
+            </details>
+
+            <!-- BIMESTRE 2 -->
+            <details class="bimestre-accordion">
+                <summary>📚 Bimestre 2</summary>
+                <div class="accordion-content">
+                    <span class="placeholder">Asignaturas de Bimestre 2 no registradas aún.</span>
+                </div>
+            </details>
+
+            <!-- BIMESTRE 3 (Desplegado por defecto con 'open') -->
+            <details class="bimestre-accordion" open>
+                <summary>📚 Bimestre 3 (En curso)</summary>
+                <div class="accordion-content">
+                    
+                    <!-- RAMO 1: CONSULTA DE DATOS -->
+                    <div class="card" style="border-left-color: #2f855a;">
+                        <h2 style="color: #2f855a;">📊 1. Consulta de Datos</h2>
+                        
+                        <div class="unidad-box">
+                            <h4>📌 Unidad 1: Construyendo consultas simples</h4>
+                            <div class="grid-links">
+                                <a class="btn-link" style="color: #2f855a;" href="./1 año/Bimestre 3/1.- CONSULTA DE DATOS/Unidad 1 Construyendo consultas simples/1.- Material de estudio/semana 1/">
+                                    🔍 Semana 1 (SELECT)
+                                </a>
+                                <a class="btn-link" style="color: #2f855a;" href="./1 año/Bimestre 3/1.- CONSULTA DE DATOS/Unidad 1 Construyendo consultas simples/1.- Material de estudio/semana 2/">
+                                    📖 Semana 2 (OPERADORES Y SENTENCIAS)
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="unidad-box">
+                            <h4>📌 Unidad 2</h4>
+                            <span class="placeholder">Próximamente...</span>
+                        </div>
+
+                        <div class="unidad-box">
+                            <h4>📌 Unidad 3</h4>
+                            <span class="placeholder">Próximamente...</span>
+                        </div>
+                    </div>
+
+                    <!-- RAMO 2: INGLÉS BÁSICO -->
+                    <div class="card" style="border-left-color: #b7791f;">
+                        <h2 style="color: #b7791f;">🔤 2. Inglés Básico</h2>
+                        
+                        <div class="unidad-box">
+                            <h4>📌 Unidad 1: Who Am I</h4>
+                            <div class="grid-links">
+                                <a class="btn-link" style="color: #b7791f;" href="./1 año/Bimestre 3/2.- INGLÉS BÁSICO/Unidad 1/1.- Material de estudio/Semana 1/">
+                                    🔍 Semana 1 (Who Am I)
+                                </a>
+                                <a class="btn-link" style="color: #b7791f;" href="./1 año/Bimestre 3/2.- INGLÉS BÁSICO/Unidad 1/1.- Material de estudio/Semana 2/">
+                                    📖 Semana 2 (-)
+                                </a>
+                            </div>   
+                        </div>
+                    </div>
+
+                    <!-- RAMO 3: PROGRAMACIÓN I -->
+                    <div class="card" style="border-left-color: #4c51bf;">
+                        <h2 style="color: #4c51bf;">💻 3. Programación I</h2>
+                        
+                        <div class="unidad-box">
+                            <h4>📌 Unidad 1: Primeros pasos C#</h4>
+                            <div class="grid-links">
+                                <a class="btn-link" style="color: #4c51bf;" href="./1 año/Bimestre 3/3.- PROGRAMACIÓN I/Unidad 1 Primeros Pasos C/1.- Material de estudio/Semana 1/">
+                                    🔍 Semana 1 (C#)
+                                </a>
+                                <a class="btn-link" style="color: #4c51bf;" href="./1 año/Bimestre 3/3.- PROGRAMACIÓN I/Unidad 1 Primeros Pasos C/1.- Material de estudio/Semana 2/">
+                                    📖 Semana 2 (-)
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </details>
+
+            <!-- BIMESTRE 4 -->
+            <details class="bimestre-accordion">
+                <summary>📚 Bimestre 4</summary>
+                <div class="accordion-content">
+                    <span class="placeholder">Próximamente...</span>
+                </div>
+            </details>
+
+            <!-- BIMESTRE 5 -->
+            <details class="bimestre-accordion">
+                <summary>📚 Bimestre 5</summary>
+                <div class="accordion-content">
+                    <span class="placeholder">Próximamente...</span>
+                </div>
+            </details>
+
+        </div>
+    </details>
+
+    <!-- ==================== AÑO 2 (Plegado por defecto) ==================== -->
+    <details class="year-accordion">
+        <summary>📅 Año 2</summary>
+        
+        <div class="accordion-content">
+
+            <details class="bimestre-accordion">
+                <summary>📚 Bimestre 1</summary>
+                <div class="accordion-content"><span class="placeholder">Próximamente...</span></div>
+            </details>
+
+            <details class="bimestre-accordion">
+                <summary>📚 Bimestre 2</summary>
+                <div class="accordion-content"><span class="placeholder">Próximamente...</span></div>
+            </details>
+
+            <details class="bimestre-accordion">
+                <summary>📚 Bimestre 3</summary>
+                <div class="accordion-content"><span class="placeholder">Próximamente...</span></div>
+            </details>
+
+            <details class="bimestre-accordion">
+                <summary>📚 Bimestre 4</summary>
+                <div class="accordion-content"><span class="placeholder">Próximamente...</span></div>
+            </details>
+
+            <details class="bimestre-accordion">
+                <summary>📚 Bimestre 5</summary>
+                <div class="accordion-content"><span class="placeholder">Próximamente...</span></div>
+            </details>
+
+        </div>
+    </details>
+
+</body>
+</html>
