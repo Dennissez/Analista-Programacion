@@ -1,0 +1,206 @@
+cells:
+  - kind: 2
+    value: "-- Unidad 1: SELECT\r
+
+      \r
+
+      --SELECT se utiliza para recuperar información de la base de datos.\r
+
+      \r
+
+      -- Sintaxis\r
+
+      \r
+
+      SELECT * |{[DISTINCT] Columna/expresión [alias]...}\r
+
+      FROM tabla\r
+
+      [WHERE condición]\r
+
+      [ORDER BY criterio_orden]\r
+
+      \r
+
+      -- Operadores Aritméticos\r
+
+      \r
+
+      SELECT last_name, salary, salary + numero\r
+
+      From employees;\r
+
+      \r
+
+      SELECT last_name, salary, numero * salary + numero\r
+
+      From employees;\r
+
+      \r
+
+      -- Operaciones con valores NULOS\r
+
+      \r
+
+      SELECT last_name, salary, commission_pct, numero * commission_pct\r
+
+      From employees;\r
+
+      \r
+
+      -- Uso de Alias\r
+
+      \r
+
+      SELECT last_name AS nombre, commission_pct comm\r
+
+      From employees;\r
+
+      \r
+
+      -- Usando operador de concatenación\r
+
+      \r
+
+      SELECT last_name || \"pertenece al departamento\" || department_id
+      \"Detalle de Empleados\"\r
+
+      From employees;\r
+
+      \r
+
+      -- Valores duplicados en las columnas \r
+
+      \r
+
+      SELECT DISTINCT department_id\r
+
+      From employees;\r
+
+      \r
+
+      -- Ordenando las filas recuperadas\r
+
+      \r
+
+      -- ORDER BY ASC o DESC\r
+
+      \r
+
+      -- ASC\r
+
+      \r
+
+      SELECT last_name, job_id, hire_date\r
+
+      From employees;\r
+
+      ORDER BY hire_date;\r
+
+      \r
+
+      -- DESC\r
+
+      \r
+
+      SELECT last_name, job_id, hire_date\r
+
+      From employees;\r
+
+      ORDER BY hire_date DESC;\r
+
+      \r
+
+      -- Filtros con WHERE\r
+
+      \r
+
+      -- Fltro WHERE se usa para filtrar filas y obtener solo los registros que
+      cumplen con una condición\r
+
+      \r
+
+      SELECT * |{[DISTINCT] Columna/expresión [alias]...}\r
+
+      FROM tabla\r
+
+      [WHERE condición]\r
+
+      [ORDER BY criterio_orden]\r
+
+      \r
+
+      -- Uso de Operadores\r
+
+      \r
+
+      -- Operador BETWEEN\r
+
+      \r
+
+      -- Muestra filas basadas en un rango de valores especificados. \r
+
+      \r
+
+      SELECT last_name\r
+
+      FROM employees;\r
+
+      WHERE salary BETWEEN 2500 AND 3500;\r
+
+      \r
+
+      -- Operador IN\r
+
+      \r
+
+      -- Obtiene las filas cuyo valores se encuentren en la lista\r
+
+      \r
+
+      SELECT last_name\r
+
+      FROM employees;\r
+
+      WHERE salary IN ('Hartsein', 'Vargas');\r
+
+      \r
+
+      -- Operador LIKE\r
+
+      \r
+
+      -- Permite obtener filas cuyo valor en una columna cumpla una condición
+      textual\r
+
+      \r
+
+      SELECT last_name\r
+
+      FROM employees;\r
+
+      WHERE salary LIKE 'S%';\r
+
+      \r
+
+      -- Operador NULL\r
+
+      \r
+
+      -- Permite obtener filas cuyo valor en una columna cumpla una condición
+      textual\r
+
+      \r
+
+      SELECT last_name, manager_id\r
+
+      FROM employees;\r
+
+      WHERE manager_id IS NULL o IS NOT NULL;\r
+
+      \r
+
+      \r
+
+      \r\n"
+    languageId: oracle-sql
