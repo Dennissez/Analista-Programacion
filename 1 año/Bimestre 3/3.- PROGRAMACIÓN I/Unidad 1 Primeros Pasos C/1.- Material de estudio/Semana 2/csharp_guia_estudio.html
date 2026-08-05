@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Primeros pasos con C# — Guía de Estudio</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap');
+
+  :root{
+    --ink:#1c2b2e;
+    --paper:#f6f2ea;
+    --card:#ffffff;
+    --teal:#2f6f6a;
+    --teal-deep:#1e4a47;
+    --coral:#e0623f;
+    --line:#d8d0c0;
+    --muted:#6b6558;
+    --code-bg:#1a1f26;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    line-height:1.5;
+    padding-bottom:80px;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    padding:64px 24px 48px;
+    background:var(--teal-deep);
+    color:var(--paper);
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute;
+    top:-40%; right:-10%;
+    width:480px; height:480px;
+    background:radial-gradient(circle, rgba(224,98,63,0.35) 0%, transparent 70%);
+  }
+  .hero-inner{max-width:900px; margin:0 auto; position:relative;}
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:#b9d6d2;
+    margin-bottom:14px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{content:"●"; color:var(--coral); font-size:10px;}
+  h1.title{
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:clamp(32px, 5.2vw, 54px);
+    margin:0 0 12px;
+    line-height:1.05;
+  }
+  h1.title em{ font-style:italic; font-weight:500; color:#f0b9a4; }
+  .subtitle{ font-size:16px; color:#d8e8e5; max-width:600px; margin:0; }
+  .hero-tags{ display:flex; flex-wrap:wrap; gap:8px; margin-top:28px; }
+  .hero-tags a{
+    font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--paper);
+    text-decoration:none; border:1px solid rgba(246,242,234,0.35);
+    padding:6px 12px; border-radius:20px; transition:all .15s ease;
+  }
+  .hero-tags a:hover{background:rgba(246,242,234,0.12); border-color:var(--paper);}
+
+  /* ---------- LAYOUT ---------- */
+  .wrap{max-width:900px; margin:0 auto; padding:0 24px;}
+  section.block{margin-top:64px;}
+  .block-head{
+    display:flex; align-items:baseline; gap:14px; margin-bottom:22px;
+    border-bottom:2px solid var(--ink); padding-bottom:10px;
+  }
+  .block-num{ font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--coral); font-weight:600; }
+  .block-head h2{ font-family:'Fraunces',serif; font-size:26px; font-weight:600; margin:0; }
+  .block-intro{ color:var(--muted); font-size:15px; margin:-8px 0 22px; max-width:660px; }
+
+  /* ---------- EXPLANATION CARDS ---------- */
+  .expl-list{display:flex; flex-direction:column; gap:10px;}
+  .expl-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:12px;
+    overflow:hidden;
+  }
+  .expl-toggle{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    padding:14px 18px;
+    background:none;
+    border:none;
+    cursor:pointer;
+    text-align:left;
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:16px;
+    color:var(--teal-deep);
+  }
+  .expl-toggle .chev{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    color:var(--muted);
+    transition:transform .18s ease;
+    flex:none;
+  }
+  .expl-card.open .expl-toggle .chev{transform:rotate(90deg);}
+  .expl-body{
+    display:none;
+    padding:0 18px 18px;
+    display:none;
+  }
+  .expl-card.open .expl-body{display:block;}
+  .expl-code-mini{
+    background:var(--code-bg);
+    border-radius:10px;
+    padding:12px 14px;
+    margin-bottom:12px;
+    overflow-x:auto;
+  }
+  .expl-code-mini pre{font-size:12px;}
+  .expl-point{
+    display:flex;
+    gap:12px;
+    padding:9px 0;
+    border-bottom:1px solid var(--paper);
+  }
+  .expl-point:last-child{border-bottom:none;}
+  .expl-point .term{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    font-weight:700;
+    color:var(--coral);
+    flex:0 0 190px;
+  }
+  .expl-point .desc{
+    font-size:13.5px;
+    color:var(--muted);
+    flex:1;
+  }
+  @media (max-width:600px){
+    .expl-point{flex-direction:column; gap:4px;}
+    .expl-point .term{flex:none;}
+  }
+
+  /* ---------- CODE BLOCKS ---------- */
+  .code-card{
+    background:var(--code-bg);
+    border-radius:12px;
+    padding:18px 20px;
+    margin:14px 0;
+    overflow-x:auto;
+    box-shadow:0 4px 0 var(--line);
+  }
+  .code-caption{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;
+    color:var(--muted);
+    margin-bottom:6px;
+  }
+  pre{ margin:0; font-family:'IBM Plex Mono',monospace; font-size:13px; line-height:1.6; color:#e8e4da; }
+  span[data-t="kw"]{color:#7fc7d9;}
+  span[data-t="type"]{color:#5fd0a8;}
+  span[data-t="str"]{color:#e0a458;}
+  span[data-t="com"]{color:#6b7280; font-style:italic;}
+  span[data-t="num"]{color:#e0623f;}
+
+  /* ---------- CALLOUT ---------- */
+  .callout{
+    background:#fbe9de;
+    border-left:4px solid var(--coral);
+    border-radius:8px;
+    padding:14px 18px;
+    font-size:14px;
+    color:#7a3d24;
+    margin:14px 0;
+  }
+  .callout strong{color:#5a2a15;}
+
+  /* ---------- INHERITANCE DIAGRAM ---------- */
+  .inherit-diagram{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:0;
+    flex-wrap:wrap;
+    margin:24px 0;
+  }
+  .class-box{
+    background:var(--card);
+    border:2px solid var(--teal-deep);
+    border-radius:12px;
+    padding:16px 22px;
+    text-align:center;
+    min-width:150px;
+    cursor:default;
+    transition:transform .15s ease;
+  }
+  .class-box.child{border-color:var(--coral);}
+  .class-box:hover{transform:translateY(-3px);}
+  .class-box .kind{ font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); text-transform:uppercase; }
+  .class-box .name{ font-family:'Fraunces',serif; font-weight:700; font-size:20px; color:var(--teal-deep); }
+  .class-box.child .name{ color:var(--coral); }
+  .class-box .members{ font-size:11px; color:var(--muted); margin-top:6px; text-align:left; font-family:'IBM Plex Mono',monospace; }
+  .inherit-arrow{
+    display:flex; flex-direction:column; align-items:center;
+    padding:0 18px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted);
+  }
+  .inherit-arrow svg{width:44px; height:20px;}
+
+  /* ---------- SIMULATOR ---------- */
+  .sim-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:22px;
+  }
+  .sim-list{
+    display:flex; flex-wrap:wrap; gap:10px;
+    min-height:88px;
+    padding:14px;
+    background:var(--paper);
+    border-radius:10px;
+    margin-bottom:16px;
+    align-items:flex-end;
+  }
+  .sim-item{
+    display:flex; flex-direction:column; align-items:center; gap:6px;
+  }
+  .sim-chip{
+    width:52px; height:52px; border-radius:10px;
+    display:flex; align-items:center; justify-content:center;
+    color:#fff; font-family:'IBM Plex Mono',monospace; font-size:10.5px; font-weight:600;
+    box-shadow:0 2px 0 rgba(0,0,0,0.15);
+    text-align:center;
+    padding:4px;
+  }
+  .sim-index{ font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted); }
+  .sim-empty{ color:var(--muted); font-size:13px; font-style:italic; padding:8px; }
+  .sim-controls{
+    display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px;
+  }
+  .sim-controls input{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:8px 10px;
+    background:var(--paper);
+    color:var(--ink);
+  }
+  .sim-controls input.idx{ width:56px; }
+  .sim-controls input.color{ width:110px; }
+  .sim-btn{
+    font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600;
+    padding:8px 14px; border-radius:8px; border:1px solid var(--ink);
+    background:var(--ink); color:var(--paper); cursor:pointer;
+  }
+  .sim-btn.ghost{ background:transparent; color:var(--ink); }
+  .sim-btn.danger{ background:var(--coral); border-color:var(--coral); }
+  .sim-meta{
+    display:flex; gap:18px; font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--muted);
+    margin-bottom:12px;
+  }
+  .sim-meta strong{color:var(--teal-deep);}
+  .sim-log{
+    background:var(--code-bg); border-radius:10px; padding:12px 16px;
+    max-height:150px; overflow-y:auto;
+    font-family:'IBM Plex Mono',monospace; font-size:12px; color:#9fd3c7;
+  }
+  .sim-log div{padding:2px 0;}
+  .sim-log .idxnote{color:#6b7280;}
+
+  /* ---------- METHOD TABLES ---------- */
+  .tabs{display:flex; gap:8px; margin-bottom:16px;}
+  .tab-btn{
+    font-family:'IBM Plex Mono',monospace; font-size:12px; text-transform:uppercase;
+    letter-spacing:.04em; padding:7px 16px; border-radius:20px; border:1px solid var(--ink);
+    background:transparent; cursor:pointer; color:var(--ink); transition:all .15s ease;
+  }
+  .tab-btn.active{background:var(--ink); color:var(--paper);}
+  .method-grid{display:none; flex-direction:column; gap:8px;}
+  .method-grid.active{display:flex;}
+  .method-row{
+    background:var(--card); border:1px solid var(--line); border-radius:10px;
+    padding:12px 16px;
+  }
+  .method-row .top{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .method-row .sig{ font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:13.5px; color:var(--teal-deep); }
+  .method-row .ret{
+    font-family:'IBM Plex Mono',monospace; font-size:10.5px; background:var(--paper);
+    border:1px solid var(--line); border-radius:6px; padding:2px 8px; color:var(--muted);
+  }
+  .method-row .desc{ font-size:13px; color:var(--muted); margin-top:6px; }
+  .method-row .ex{
+    font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--coral);
+    margin-top:6px;
+  }
+
+  /* ---------- FLASHCARDS ---------- */
+  .flash-wrap{display:flex; flex-direction:column; align-items:center; gap:16px;}
+  .flashcard{
+    width:100%; max-width:560px; min-height:150px;
+    background:var(--card); border:1px solid var(--line); border-radius:16px;
+    display:flex; align-items:center; justify-content:center; text-align:center;
+    padding:30px; cursor:pointer; font-size:16.5px; font-weight:600; position:relative;
+    box-shadow:0 2px 0 var(--line); transition:box-shadow .12s ease, transform .12s ease;
+  }
+  .flashcard:hover{transform:translateY(-2px);}
+  .flashcard .hint{
+    position:absolute; bottom:10px; right:14px; font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px; color:var(--muted); font-weight:400;
+  }
+  .flashcard.showing-answer{background:#eef5f3; color:var(--teal-deep); font-size:14.5px; font-weight:500;}
+  .flash-controls{display:flex; gap:10px; align-items:center;}
+  .flash-controls button{
+    font-family:'IBM Plex Mono',monospace; font-size:12.5px; padding:8px 16px;
+    border-radius:20px; border:1px solid var(--ink); background:var(--ink); color:var(--paper); cursor:pointer;
+  }
+  .flash-controls button.secondary{background:transparent; color:var(--ink);}
+  .flash-progress{font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--muted);}
+
+  footer{
+    text-align:center; margin-top:70px; padding-top:24px; border-top:1px solid var(--line);
+    font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--muted);
+  }
+
+  @media (max-width:640px){
+    .inherit-diagram{flex-direction:column;}
+    .inherit-arrow{transform:rotate(90deg); padding:10px 0;}
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Programación I · Unidad 1</div>
+    <h1 class="title">Primeros pasos con <em>C#</em></h1>
+    <p class="subtitle">Guía interactiva: polimorfismo, herencia, interfaces y colecciones — con simulador de List&lt;T&gt; en vivo.</p>
+    <div class="hero-tags">
+      <a href="#herencia">Herencia</a>
+      <a href="#interface">Interface</a>
+      <a href="#explicacion">Explicación línea por línea</a>
+      <a href="#simulador">Simulador List&lt;T&gt;</a>
+      <a href="#metodos">Métodos</a>
+      <a href="#reflexion">A reflexionar</a>
+      <a href="#quiz">Quiz</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- POLIMORFISMO / INTRO -->
+  <section class="block" id="poo">
+    <div class="block-head">
+      <span class="block-num">01</span>
+      <h2>Los 4 pilares de la POO</h2>
+    </div>
+    <p class="block-intro">C# es un lenguaje orientado a objetos. La programación orientada a objetos (POO) se basa en cuatro principios:</p>
+    <div class="callout"><strong>Abstracción:</strong> crear clases para representar atributos y comportamientos relevantes del sistema.</div>
+    <div class="callout"><strong>Encapsulamiento:</strong> esconder el estado interno de un objeto, accesible solo por métodos públicos.</div>
+    <div class="callout"><strong>Herencia:</strong> una clase puede heredar comportamientos y características desde otra clase.</div>
+    <div class="callout"><strong>Polimorfismo:</strong> las clases hijas pueden sobrescribir e implementar de forma distinta lo heredado.</div>
+  </section>
+
+  <!-- HERENCIA -->
+  <section class="block" id="herencia">
+    <div class="block-head">
+      <span class="block-num">02</span>
+      <h2>Herencia: clase padre → clase hijo</h2>
+    </div>
+    <p class="block-intro">La clase hijo accede a la información de la clase padre. La clase padre <strong>no</strong> puede acceder a la información de la clase hijo. Para invocar un miembro del padre se usa <code>base</code>.</p>
+
+    <div class="inherit-diagram">
+      <div class="class-box">
+        <div class="kind">Clase padre</div>
+        <div class="name">Personal</div>
+        <div class="members">Id, Nombre, Apellido<br>ObtenerInformacion()</div>
+      </div>
+      <div class="inherit-arrow">
+        <svg viewBox="0 0 44 20"><line x1="2" y1="10" x2="38" y2="10" stroke="#6b6558" stroke-width="2"/><polygon points="38,4 44,10 38,16" fill="#6b6558"/></svg>
+        hereda
+      </div>
+      <div class="class-box child">
+        <div class="kind">Clase hijo</div>
+        <div class="name">Profesor</div>
+        <div class="members">: Personal<br>MostrarInfoDesdeClaseProfesor()</div>
+      </div>
+    </div>
+
+    <div class="code-caption">Clase Personal actuando como clase padre</div>
+    <div class="code-card" data-code='public class Personal
+{
+    public int Id { get; set; }
+    public string? Nombre { get; set; }
+    public string? Apellido { get; set; }
+
+    protected string ObtenerInformacion()
+    {
+        return $"Id: {Id} - Nombre: {Nombre} {Apellido}";
+    }
+}'></div>
+
+    <div class="code-caption">Clase Profesor heredando desde Personal</div>
+    <div class="code-card" data-code='public class Profesor : Personal
+{
+    public Profesor() : base() {}
+
+    public string MostrarInfoDesdeClaseProfesor()
+    {
+        return base.ObtenerInformacion();
+    }
+}'></div>
+
+    <div class="code-caption">Creación de instancia de objeto Profesor</div>
+    <div class="code-card" data-code='Profesor profe = new Profesor()
+{
+    Id = 1,
+    Nombre = "Albert",
+    Apellido = "Einstein"
+};
+
+profe.MostrarInfoDesdeClaseProfesor();'></div>
+
+    <p class="block-intro">El polimorfismo agrega dos reglas más: la clase padre puede crear instancias de la clase hija (no al revés), y los métodos <code>virtual</code> del padre pueden ser sobrescritos por el hijo con <code>override</code>.</p>
+
+    <div class="code-caption">La clase padre SÍ puede instanciar como clase hija</div>
+    <div class="code-card" data-code='Personal historia = new Profesor()
+{
+    Id = 2,
+    Nombre = "José",
+    Apellido = "Mourinho"
+};'></div>
+
+    <div class="callout"><strong>Ojo:</strong> si se intenta al revés (que la clase hijo cree una instancia de la clase padre), C# arroja un error: <em>Cannot implicitly convert type 'Personal' to 'Profesor'</em>.</div>
+
+    <div class="code-caption">Método virtual (padre) y sobrescritura con override (hijo)</div>
+    <div class="code-card" data-code='// En la clase Personal (padre)
+public virtual string MetodoVirtual()
+{
+    return "Soy un método virtual desde la clase padre!";
+}'></div>
+    <div class="code-card" data-code='// En la clase Profesor (hijo)
+public override string MetodoVirtual()
+{
+    return "Soy un método virtual de la clase padre " +
+        "que ha sido sobre escrito en la clase hijo!";
+}'></div>
+  </section>
+
+  <!-- INTERFACE -->
+  <section class="block" id="interface">
+    <div class="block-head">
+      <span class="block-num">03</span>
+      <h2>Interface: definiendo contratos</h2>
+    </div>
+    <p class="block-intro">Una interface define <strong>contratos</strong>: métodos o propiedades obligatorios que toda clase que la implemente debe definir. Por convención, se antepone una <strong>I</strong> mayúscula al nombre.</p>
+
+    <div class="code-caption">Firma de método y propiedad dentro de una interface</div>
+    <div class="code-card" data-code='public interface IPersistente
+{
+    bool ObtenerPersonalPorId(int id);
+    bool Estado { get; set; }
+}'></div>
+
+    <div class="code-caption">Implementación obligatoria dentro de la clase Personal</div>
+    <div class="code-card" data-code='public class Personal : IPersistente
+{
+    public int Id { get; set; }
+    public string? Nombre { get; set; }
+    public string? Apellido { get; set; }
+    public bool Estado {
+        get => throw new NotImplementedException();
+        set => throw new NotImplementedException();
+    }
+
+    protected string ObtenerInformacion()
+    {
+        return $"Id: {Id} - Nombre: {Nombre} {Apellido}";
+    }
+
+    public virtual string MetodoVirtual()
+    {
+        return "Soy un método virtual desde la clase padre!";
+    }
+
+    public bool ObtenerPersonalPorId(int id)
+    {
+        //TODO code
+        throw new NotImplementedException();
+    }
+}'></div>
+    <p class="block-intro">Como <code>Profesor</code> hereda de <code>Personal</code>, también tendrá disponibles <code>ObtenerPersonalPorId()</code> y <code>Estado</code> automáticamente.</p>
+  </section>
+
+  <!-- EXPLICACIÓN LÍNEA POR LÍNEA -->
+  <section class="block" id="explicacion">
+    <div class="block-head">
+      <span class="block-num">04</span>
+      <h2>Explicación línea por línea</h2>
+    </div>
+    <p class="block-intro">Toca cada bloque para desplegar la explicación de lo que hace cada línea de código.</p>
+    <div class="expl-list" id="expl-list"></div>
+  </section>
+
+  <!-- SIMULADOR -->
+  <section class="block" id="simulador">
+    <div class="block-head">
+      <span class="block-num">05</span>
+      <h2>Simulador: List&lt;Silla&gt;</h2>
+    </div>
+    <p class="block-intro">Cada elemento tiene un índice automático que parte en 0. Prueba los métodos y observa cómo cambian los índices en tiempo real.</p>
+
+    <div class="sim-card">
+      <div class="sim-meta">
+        <span>Count: <strong id="sim-count">0</strong></span>
+        <span>Tipo: <strong>List&lt;Silla&gt;</strong></span>
+      </div>
+      <div class="sim-list" id="sim-list"></div>
+      <div class="sim-controls">
+        <input type="text" class="color" id="sim-color-input" placeholder="color (ej: rojo)" value="rojo">
+        <button class="sim-btn" id="sim-add">Add(color)</button>
+        <input type="number" class="idx" id="sim-insert-idx" placeholder="i" min="0">
+        <input type="text" class="color" id="sim-insert-color" placeholder="color" value="verde">
+        <button class="sim-btn ghost" id="sim-insert">Insert(i, color)</button>
+        <input type="text" class="color" id="sim-remove-input" placeholder="color a quitar">
+        <button class="sim-btn ghost" id="sim-remove">Remove(color)</button>
+        <input type="number" class="idx" id="sim-removeat-idx" placeholder="i" min="0">
+        <button class="sim-btn ghost" id="sim-removeat">RemoveAt(i)</button>
+        <button class="sim-btn danger" id="sim-clear">Clear()</button>
+      </div>
+      <div class="sim-log" id="sim-log"></div>
+    </div>
+  </section>
+
+  <!-- MÉTODOS Y PROPIEDADES -->
+  <section class="block" id="metodos">
+    <div class="block-head">
+      <span class="block-num">06</span>
+      <h2>Métodos y propiedades: List&lt;T&gt; vs ArrayList</h2>
+    </div>
+    <p class="block-intro"><code>List&lt;T&gt;</code> es genérica (un tipo fijo de dato). <code>ArrayList</code> no es genérica — puede mezclar tipos, pero no es recomendable usarla hoy por temas de performance.</p>
+    <div class="tabs" id="method-tabs"></div>
+    <div id="method-grids"></div>
+  </section>
+
+  <!-- REFLEXIÓN -->
+  <section class="block" id="reflexion">
+    <div class="block-head">
+      <span class="block-num">07</span>
+      <h2>A reflexionar</h2>
+    </div>
+    <p class="block-intro">Las preguntas de reflexión del material, para pensarlas antes de ver la respuesta.</p>
+    <div class="flash-wrap" id="reflexion-wrap">
+      <div class="flashcard" id="reflexion-card"></div>
+      <div class="flash-controls">
+        <button class="secondary" id="reflexPrev">← Anterior</button>
+        <span class="flash-progress" id="reflexProgress">1 / 2</span>
+        <button id="reflexNext">Siguiente →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="block" id="quiz">
+    <div class="block-head">
+      <span class="block-num">08</span>
+      <h2>Practica con flashcards</h2>
+    </div>
+    <p class="block-intro">Toca la tarjeta para ver la respuesta.</p>
+    <div class="flash-wrap">
+      <div class="flashcard" id="flashcard"></div>
+      <div class="flash-controls">
+        <button class="secondary" id="prevBtn">← Anterior</button>
+        <span class="flash-progress" id="flashProgress">1 / 8</span>
+        <button id="nextBtn">Siguiente →</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>Basado en el material de Programación I — Unidad 1, IPLACEX</footer>
+</div>
+
+<script>
+/* ---------------- CODE HIGHLIGHTING ---------------- */
+function hl(code){
+  code = code.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  code = code.replace(/(\/\/[^\n]*)/g, '<span data-t="com">$1</span>');
+  code = code.replace(/(\$?&quot;[^&]*?&quot;|\$?"[^"]*")/g, m=>{
+    return '<span data-t="str">'+m+'</span>';
+  });
+  const types = ['Personal','Profesor','Silla','IPersistente','NotImplementedException','Object'];
+  code = code.replace(new RegExp('\\b('+types.join('|')+')\\b','g'), '<span data-t="type">$1</span>');
+  const kw = ['public','private','protected','class','static','void','int','string','bool','object','new','return','base','virtual','override','get','set','throw','interface','using','namespace','var'];
+  code = code.replace(new RegExp('\\b('+kw.join('|')+')\\b(?![^<]*>)','g'), '<span data-t="kw">$1</span>');
+  code = code.replace(/\b(\d+)\b(?![^<]*>)/g, '<span data-t="num">$1</span>');
+  return code;
+}
+/* ---------------- EXPLICACIÓN LÍNEA POR LÍNEA ---------------- */
+const explanations = [
+  {
+    title: 'La clase padre: Personal',
+    code: `public class Personal
+{
+    public int Id { get; set; }
+    public string? Nombre { get; set; }
+    public string? Apellido { get; set; }
+
+    protected string ObtenerInformacion()
+    {
+        return $"Id: {Id} - Nombre: {Nombre} {Apellido}";
+    }
+}`,
+    points: [
+      {term:'public class Personal', desc:'Define una clase llamada Personal, visible desde cualquier parte del programa.'},
+      {term:'public int Id { get; set; }', desc:'Una propiedad. get permite leer el valor, set permite modificarlo — una forma corta de escribir un campo con getter y setter.'},
+      {term:'string?', desc:'El ? indica que ese texto puede ser null (sin valor asignado). Buena práctica en C# moderno para evitar errores.'},
+      {term:'protected string ObtenerInformacion()', desc:'Un método. protected significa que solo la propia clase y sus clases hijas pueden usarlo.'},
+      {term:'$"Id: {Id} - ..."', desc:'String interpolado. El $ antes de las comillas permite meter variables directo dentro del texto usando {}.'},
+    ]
+  },
+  {
+    title: 'La clase hijo: Profesor',
+    code: `public class Profesor : Personal
+{
+    public Profesor() : base() {}
+
+    public string MostrarInfoDesdeClaseProfesor()
+    {
+        return base.ObtenerInformacion();
+    }
+}`,
+    points: [
+      {term:': Personal', desc:'Los dos puntos indican herencia. Profesor hereda todo lo público y protegido de Personal.'},
+      {term:'public Profesor() : base() {}', desc:'Constructor de Profesor. El : base() llama al constructor de la clase padre antes de construir el hijo.'},
+      {term:'base.ObtenerInformacion()', desc:'base apunta a la clase padre. Como el método es protected (no público), no se puede llamar desde afuera, pero sí desde una clase hija usando base.'},
+    ]
+  },
+  {
+    title: 'Creando un objeto',
+    code: `Profesor profe = new Profesor()
+{
+    Id = 1,
+    Nombre = "Albert",
+    Apellido = "Einstein"
+};
+
+profe.MostrarInfoDesdeClaseProfesor();`,
+    points: [
+      {term:'new Profesor() { ... }', desc:'Crea una instancia (un objeto real en memoria) de Profesor, asignando valores a las propiedades heredadas directamente entre { }.'},
+      {term:'profe.MostrarInfoDesdeClaseProfesor()', desc:'Llama al método propio de Profesor, que por dentro usa base para ir a buscar la info a Personal.'},
+    ]
+  },
+  {
+    title: 'Polimorfismo: el padre puede "ser" el hijo',
+    code: `Personal historia = new Profesor()
+{
+    Id = 2,
+    Nombre = "José",
+    Apellido = "Mourinho"
+};`,
+    points: [
+      {term:'Personal historia = new Profesor()', desc:'La variable se declara de tipo Personal (el padre), pero el objeto real creado es un Profesor (el hijo).'},
+      {term:'¿Por qué funciona?', desc:'Porque un Profesor "es un" Personal (herencia). Al revés no funciona: no todo Personal es necesariamente Profesor.'},
+    ]
+  },
+  {
+    title: 'virtual y override',
+    code: `// En Personal (padre)
+public virtual string MetodoVirtual()
+{
+    return "Soy un método virtual desde la clase padre!";
+}
+
+// En Profesor (hijo)
+public override string MetodoVirtual()
+{
+    return "Soy un método virtual de la clase padre " +
+        "que ha sido sobre escrito en la clase hijo!";
+}`,
+    points: [
+      {term:'virtual (en el padre)', desc:'Indica que este método puede ser reemplazado por las clases hijas.'},
+      {term:'override (en el hijo)', desc:'Indica que se está reemplazando ese método con una versión propia.'},
+      {term:'¿Cuál versión se ejecuta?', desc:'Si tienes un objeto Profesor y llamas MetodoVirtual(), se ejecuta la versión del hijo, aunque la variable esté "disfrazada" de Personal. Eso es polimorfismo en acción.'},
+    ]
+  },
+  {
+    title: 'La interface: IPersistente',
+    code: `public interface IPersistente
+{
+    bool ObtenerPersonalPorId(int id);
+    bool Estado { get; set; }
+}
+
+public class Personal : IPersistente
+{
+    // ...
+    public bool Estado {
+        get => throw new NotImplementedException();
+        set => throw new NotImplementedException();
+    }
+
+    public bool ObtenerPersonalPorId(int id)
+    {
+        throw new NotImplementedException();
+    }
+}`,
+    points: [
+      {term:'interface IPersistente', desc:'No tiene lógica, solo declara qué métodos/propiedades son obligatorios: un contrato para cualquier clase que la implemente.'},
+      {term:': IPersistente (en Personal)', desc:'Una clase puede implementar una o varias interfaces, a diferencia de la herencia, que en C# solo permite un padre.'},
+      {term:'throw new NotImplementedException();', desc:'Un "placeholder": compila, pero si se ejecuta lanza un error avisando que esto aún no está programado. Se usa mientras se completa el código.'},
+      {term:'get => ...', desc:'Forma corta (expression-bodied member) de escribir el getter en una sola línea, sin { }.'},
+    ]
+  },
+];
+
+const explList = document.getElementById('expl-list');
+explanations.forEach((item, i)=>{
+  const card = document.createElement('div');
+  card.className = 'expl-card';
+  const pointsHtml = item.points.map(p => `
+    <div class="expl-point">
+      <span class="term">${p.term}</span>
+      <span class="desc">${p.desc}</span>
+    </div>
+  `).join('');
+  card.innerHTML = `
+    <button class="expl-toggle"><span>${item.title}</span><span class="chev">▶</span></button>
+    <div class="expl-body">
+      <div class="expl-code-mini"><pre>${hl(item.code)}</pre></div>
+      ${pointsHtml}
+    </div>
+  `;
+  card.querySelector('.expl-toggle').addEventListener('click', ()=>{
+    card.classList.toggle('open');
+  });
+  explList.appendChild(card);
+});
+if(explList.firstElementChild) explList.firstElementChild.classList.add('open');
+
+document.querySelectorAll('.code-card[data-code]').forEach(el=>{
+  const raw = el.getAttribute('data-code');
+  const pre = document.createElement('pre');
+  pre.innerHTML = hl(raw);
+  el.appendChild(pre);
+});
+
+/* ---------------- SIMULATOR ---------------- */
+const palette = {
+  rojo:'#c0392b', roja:'#c0392b', amarillo:'#e0a458', amarilla:'#e0a458',
+  verde:'#2f9e6a', naranja:'#e0623f', azul:'#2f6f6a', morado:'#8e5ba8',
+  negro:'#1c2b2e', blanco:'#9aa0a6', papel:'#8a6d1f', rosado:'#d17ba0'
+};
+function colorFor(name){
+  const key = (name||'').toLowerCase().trim();
+  return palette[key] || '#6b6558';
+}
+
+let sillas = ['rojo','amarillo','verde','naranja','azul'];
+const simList = document.getElementById('sim-list');
+const simCount = document.getElementById('sim-count');
+const simLog = document.getElementById('sim-log');
+
+function logSim(text){
+  const line = document.createElement('div');
+  line.textContent = '> ' + text;
+  simLog.prepend(line);
+}
+
+function renderSim(){
+  simList.innerHTML = '';
+  simCount.textContent = sillas.length;
+  if(sillas.length === 0){
+    simList.innerHTML = '<div class="sim-empty">Lista vacía. Prueba filaSillas.Add("color")</div>';
+    return;
+  }
+  sillas.forEach((c, i)=>{
+    const item = document.createElement('div');
+    item.className = 'sim-item';
+    item.innerHTML = `<div class="sim-chip" style="background:${colorFor(c)}">${c}</div><div class="sim-index">${i}</div>`;
+    simList.appendChild(item);
+  });
+}
+renderSim();
+
+document.getElementById('sim-add').addEventListener('click', ()=>{
+  const val = document.getElementById('sim-color-input').value.trim() || 'rojo';
+  sillas.push(val);
+  logSim(`filaSillas.Add("${val}");`);
+  renderSim();
+});
+document.getElementById('sim-insert').addEventListener('click', ()=>{
+  let i = parseInt(document.getElementById('sim-insert-idx').value);
+  const val = document.getElementById('sim-insert-color').value.trim() || 'verde';
+  if(isNaN(i)) i = sillas.length;
+  i = Math.max(0, Math.min(i, sillas.length));
+  sillas.splice(i, 0, val);
+  logSim(`filaSillas.Insert(${i}, "${val}");`);
+  renderSim();
+});
+document.getElementById('sim-remove').addEventListener('click', ()=>{
+  const val = document.getElementById('sim-remove-input').value.trim();
+  const idx = sillas.indexOf(val);
+  if(idx === -1){
+    logSim(`filaSillas.Remove("${val}"); // no encontrado`);
+  } else {
+    sillas.splice(idx, 1);
+    logSim(`filaSillas.Remove("${val}");`);
+  }
+  renderSim();
+});
+document.getElementById('sim-removeat').addEventListener('click', ()=>{
+  const i = parseInt(document.getElementById('sim-removeat-idx').value);
+  if(isNaN(i) || i < 0 || i >= sillas.length){
+    logSim(`filaSillas.RemoveAt(${i}); // índice fuera de rango`);
+  } else {
+    sillas.splice(i, 1);
+    logSim(`filaSillas.RemoveAt(${i});`);
+  }
+  renderSim();
+});
+document.getElementById('sim-clear').addEventListener('click', ()=>{
+  sillas = [];
+  logSim(`filaSillas.Clear();`);
+  renderSim();
+});
+
+/* ---------------- METHOD TABLES ---------------- */
+const methodData = {
+  "List<T>": {
+    methods: [
+      {sig:"Add(Object value)", ret:"int", desc:"Agrega nuevo elemento al final del listado.", ex:'colores.Add("rojo");'},
+      {sig:"Clear()", ret:"void", desc:"Elimina todos los elementos.", ex:"colores.Clear();"},
+      {sig:"Contains(Object value)", ret:"bool", desc:"Determina si la lista contiene el valor especificado.", ex:'colores.Contains("rojo");'},
+      {sig:"Insert(int i, Object value)", ret:"void", desc:"Inserta un elemento en el índice especificado.", ex:'colores.Insert(5, "verde");'},
+      {sig:"Remove(Object value)", ret:"void", desc:"Remueve la primera ocurrencia según el objeto especificado.", ex:'colores.Remove("verde");'},
+      {sig:"RemoveAt(int i)", ret:"void", desc:"Remueve un elemento según el índice especificado.", ex:"colores.RemoveAt(4);"},
+      {sig:"Count", ret:"int", desc:"[Propiedad] Obtiene el número de elementos en la lista.", ex:"colores.Count;"},
+      {sig:"Item[int i]", ret:"object", desc:"[Propiedad] Obtiene un elemento según el índice entregado.", ex:"colores[2].Color;"},
+    ]
+  },
+  "ArrayList": {
+    methods: [
+      {sig:"Add(Object value)", ret:"int", desc:"Agrega un nuevo objeto al final de la lista.", ex:'colores.Add("rojo")'},
+      {sig:"AddRange()", ret:"void", desc:"Añade una colección de datos al final de la lista.", ex:"colores.Add(otrasSillas);"},
+      {sig:"Clear()", ret:"void", desc:"Elimina todos los elementos.", ex:"colores.Clear();"},
+      {sig:"Contains()", ret:"bool", desc:"Determina si el elemento está presente en el listado.", ex:"colores.Contains(56);"},
+      {sig:"Insert(int i, Object value)", ret:"void", desc:"Inserta nuevo elemento en el índice especificado.", ex:"colores.Insert(7, papel);"},
+      {sig:"Remove()", ret:"void", desc:"Remueve la primera ocurrencia según el objeto especificado.", ex:"colores.Remove(obj);"},
+      {sig:"RemoveAt()", ret:"void", desc:"Remueve un elemento según el índice especificado.", ex:"colores.RemoveAt(12);"},
+      {sig:"Sort()", ret:"void", desc:"Ordena los elementos dentro de un listado.", ex:"colores.Sort();"},
+      {sig:"ToArray()", ret:"object[]", desc:"Retorna la colección como un nuevo objeto de tipo array.", ex:"colores.ToArray();"},
+      {sig:"ToString()", ret:"string", desc:"Retorna una cadena de texto que representa el listado (solo info de la clase).", ex:"colores.ToString();"},
+      {sig:"Capacity", ret:"int", desc:"[Propiedad] Establece u obtiene el número de elementos que puede contener.", ex:"colores.Capacity;"},
+      {sig:"Count", ret:"int", desc:"[Propiedad] Obtiene el número de elementos en la lista.", ex:"colores.Count;"},
+      {sig:"Item[int i]", ret:"object", desc:"[Propiedad] Obtiene un elemento según el índice entregado.", ex:"colores[i];"},
+    ]
+  }
+};
+
+const methodTabs = document.getElementById('method-tabs');
+const methodGrids = document.getElementById('method-grids');
+Object.keys(methodData).forEach((key,i)=>{
+  const btn = document.createElement('button');
+  btn.className = 'tab-btn' + (i===0?' active':'');
+  btn.textContent = key;
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('#method-tabs .tab-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.method-grid').forEach(g=>g.classList.remove('active'));
+    document.getElementById('method-grid-'+i).classList.add('active');
+  });
+  methodTabs.appendChild(btn);
+
+  const grid = document.createElement('div');
+  grid.className = 'method-grid' + (i===0?' active':'');
+  grid.id = 'method-grid-'+i;
+  methodData[key].methods.forEach(m=>{
+    const row = document.createElement('div');
+    row.className = 'method-row';
+    row.innerHTML = `
+      <div class="top"><span class="sig">${m.sig}</span><span class="ret">${m.ret}</span></div>
+      <div class="desc">${m.desc}</div>
+      <div class="ex">${m.ex}</div>
+    `;
+    grid.appendChild(row);
+  });
+  methodGrids.appendChild(grid);
+});
+
+/* ---------------- REFLEXIÓN FLASHCARDS ---------------- */
+const reflexData = [
+  {q:"¿Una clase puede heredar comportamientos y características desde más de una clase?", a:"En C# una clase solo puede heredar de una clase base (herencia simple). Para lograr algo similar a herencia múltiple se usan varias interfaces, ya que una clase sí puede implementar más de una interface."},
+  {q:"¿Es posible establecer que un método no pueda ser sobre escrito? ¿Existe alguna instrucción especial?", a:"Sí: se usa la palabra reservada sealed sobre un método override, o sobre toda la clase, para evitar que se siga sobrescribiendo o heredando."},
+];
+let rIdx = 0, rShow = false;
+const rCard = document.getElementById('reflexion-card');
+const rProg = document.getElementById('reflexProgress');
+function renderReflex(){
+  const item = reflexData[rIdx];
+  rCard.classList.toggle('showing-answer', rShow);
+  rCard.innerHTML = `${rShow ? item.a : item.q}<span class="hint">${rShow ? 'Toca para ver pregunta' : 'Toca para ver respuesta'}</span>`;
+  rProg.textContent = `${rIdx+1} / ${reflexData.length}`;
+}
+rCard.addEventListener('click', ()=>{ rShow=!rShow; renderReflex(); });
+document.getElementById('reflexNext').addEventListener('click', ()=>{ rIdx=(rIdx+1)%reflexData.length; rShow=false; renderReflex(); });
+document.getElementById('reflexPrev').addEventListener('click', ()=>{ rIdx=(rIdx-1+reflexData.length)%reflexData.length; rShow=false; renderReflex(); });
+renderReflex();
+
+/* ---------------- QUIZ FLASHCARDS ---------------- */
+const flashcards = [
+  {q:"¿Cuáles son los 4 pilares de la POO?", a:"Abstracción, Encapsulamiento, Herencia y Polimorfismo."},
+  {q:"¿Qué instrucción usa la clase hijo para invocar un miembro de la clase padre?", a:"base"},
+  {q:"¿Qué palabra reservada se usa en el padre para permitir que un método sea sobrescrito?", a:"virtual"},
+  {q:"¿Qué palabra reservada usa el hijo para sobrescribir ese método?", a:"override"},
+  {q:"¿Qué letra se antepone por convención al nombre de una interface?", a:"I mayúscula (ej: IPersistente)"},
+  {q:"¿List<T> puede almacenar cualquier tipo de dato mezclado sin castear?", a:"No — List<T> es genérica: una vez fijado el tipo, solo acepta ese tipo de dato."},
+  {q:"¿Desde qué número parte el índice de una colección?", a:"0 (cero)"},
+  {q:"¿Por qué ya no se recomienda usar ArrayList?", a:"Por problemas de performance, al no ser una colección genérica (tipada)."},
+];
+let idx = 0, showingAnswer = false;
+const fc = document.getElementById('flashcard');
+const progress = document.getElementById('flashProgress');
+function renderFlashcard(){
+  const card = flashcards[idx];
+  fc.classList.toggle('showing-answer', showingAnswer);
+  fc.innerHTML = `${showingAnswer ? card.a : card.q}<span class="hint">${showingAnswer ? 'Toca para ver pregunta' : 'Toca para ver respuesta'}</span>`;
+  progress.textContent = `${idx+1} / ${flashcards.length}`;
+}
+fc.addEventListener('click', ()=>{ showingAnswer=!showingAnswer; renderFlashcard(); });
+document.getElementById('nextBtn').addEventListener('click', ()=>{ idx=(idx+1)%flashcards.length; showingAnswer=false; renderFlashcard(); });
+document.getElementById('prevBtn').addEventListener('click', ()=>{ idx=(idx-1+flashcards.length)%flashcards.length; showingAnswer=false; renderFlashcard(); });
+renderFlashcard();
+</script>
+
+</body>
+</html>

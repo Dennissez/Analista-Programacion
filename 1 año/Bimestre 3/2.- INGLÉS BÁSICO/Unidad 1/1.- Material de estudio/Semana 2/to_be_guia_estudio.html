@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TO BE & Nationalities — Guía de Estudio</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap');
+
+  :root{
+    --ink:#1c2b2e;
+    --paper:#f6f2ea;
+    --card:#ffffff;
+    --teal:#2f6f6a;
+    --teal-deep:#1e4a47;
+    --coral:#e0623f;
+    --line:#d8d0c0;
+    --muted:#6b6558;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    line-height:1.5;
+    padding-bottom:80px;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    padding:64px 24px 48px;
+    background:var(--teal-deep);
+    color:var(--paper);
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute;
+    top:-40%; right:-10%;
+    width:480px; height:480px;
+    background:radial-gradient(circle, rgba(224,98,63,0.35) 0%, transparent 70%);
+  }
+  .hero-inner{max-width:860px; margin:0 auto; position:relative;}
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:#b9d6d2;
+    margin-bottom:14px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{content:"●"; color:var(--coral); font-size:10px;}
+  h1.title{
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:clamp(34px, 5.6vw, 58px);
+    margin:0 0 12px;
+    line-height:1.05;
+  }
+  h1.title em{
+    font-style:italic;
+    font-weight:500;
+    color:#f0b9a4;
+  }
+  .subtitle{
+    font-size:17px;
+    color:#d8e8e5;
+    max-width:560px;
+    margin:0;
+  }
+  .hero-tags{
+    display:flex; flex-wrap:wrap; gap:8px;
+    margin-top:28px;
+  }
+  .hero-tags a{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    color:var(--paper);
+    text-decoration:none;
+    border:1px solid rgba(246,242,234,0.35);
+    padding:6px 12px;
+    border-radius:20px;
+    transition:all .15s ease;
+  }
+  .hero-tags a:hover{background:rgba(246,242,234,0.12); border-color:var(--paper);}
+
+  /* ---------- LAYOUT ---------- */
+  .wrap{max-width:860px; margin:0 auto; padding:0 24px;}
+
+  section.block{margin-top:64px;}
+  .block-head{
+    display:flex;
+    align-items:baseline;
+    gap:14px;
+    margin-bottom:22px;
+    border-bottom:2px solid var(--ink);
+    padding-bottom:10px;
+  }
+  .block-num{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    color:var(--coral);
+    font-weight:600;
+  }
+  .block-head h2{
+    font-family:'Fraunces',serif;
+    font-size:27px;
+    font-weight:600;
+    margin:0;
+  }
+  .block-intro{
+    color:var(--muted);
+    font-size:15px;
+    margin:-8px 0 24px;
+    max-width:640px;
+  }
+
+  /* ---------- AUDIO BUTTONS ---------- */
+  .spk-group{ display:inline-flex; align-items:center; gap:6px; flex:none; }
+  .spk{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:26px; height:26px; border-radius:50%;
+    border:1px solid var(--line); background:var(--paper);
+    cursor:pointer; flex:none; color:var(--teal-deep);
+    transition:background .12s ease, transform .12s ease;
+  }
+  .spk:hover{background:#eaf1f0; transform:scale(1.06);}
+  .spk:active{transform:scale(0.94);}
+  .spk svg{width:13px; height:13px;}
+  .spk.playing{background:var(--coral); border-color:var(--coral); color:#fff;}
+  .spk.slow{
+    font-family:'IBM Plex Mono',monospace; font-size:9.5px; font-weight:700;
+    color:var(--coral); border-color:#f0c9bb;
+  }
+  .spk.slow.playing{background:var(--teal-deep); border-color:var(--teal-deep); color:#fff;}
+
+  /* ---------- CONJUGATION TABLE ---------- */
+  .conj-table{
+    display:flex; flex-direction:column; gap:8px;
+  }
+  .conj-head, .conj-row{
+    display:grid;
+    grid-template-columns:0.7fr 1.2fr 1.2fr 1.2fr;
+    gap:10px;
+    align-items:center;
+  }
+  .conj-head{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    color:var(--muted);
+    padding:0 14px;
+  }
+  .conj-row{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:12px 14px;
+  }
+  .conj-cell{display:flex; flex-direction:column; gap:3px;}
+  .conj-cell .en{display:flex; align-items:center; gap:6px; font-weight:600; font-size:14px;}
+  .conj-cell .es{font-size:12px; color:var(--muted);}
+  .conj-cell.pron .en{font-family:'Fraunces',serif; font-weight:700; font-size:16px; color:var(--teal-deep);}
+
+  /* ---------- CONTRACTIONS ---------- */
+  .contr-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+    gap:14px;
+  }
+  .contr-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:16px 18px;
+  }
+  .contr-card .kind{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--coral);
+    margin-bottom:10px;
+  }
+  .contr-pair{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:7px 0;
+    border-bottom:1px solid var(--paper);
+    gap:8px;
+  }
+  .contr-pair:last-child{border-bottom:none;}
+  .contr-pair .full{font-size:13px; color:var(--muted); flex:1;}
+  .contr-pair .arrow{color:var(--line); font-size:12px;}
+  .contr-pair .short{
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:16px;
+    color:var(--teal-deep);
+    display:flex; align-items:center; gap:6px;
+  }
+
+  /* ---------- STRUCTURE DIAGRAM CARDS ---------- */
+  .struct-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(240px,1fr));
+    gap:16px;
+  }
+  .struct-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:20px;
+  }
+  .struct-card .label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--coral);
+    margin-bottom:10px;
+  }
+  .struct-formula{
+    display:flex; flex-wrap:wrap; gap:6px; align-items:center;
+    margin-bottom:14px;
+  }
+  .struct-formula span{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    padding:5px 10px;
+    border-radius:6px;
+  }
+  .struct-formula .plus{border:none; background:none; padding:0; color:var(--muted);}
+  .struct-example{
+    display:flex; align-items:center; gap:8px;
+    font-family:'Fraunces',serif;
+    font-size:19px;
+    font-weight:600;
+    color:var(--teal-deep);
+    background:#eef5f3;
+    padding:12px 16px;
+    border-radius:10px;
+  }
+
+  /* ---------- YES/NO TABLE ---------- */
+  .qa-list{display:flex; flex-direction:column; gap:8px;}
+  .qa-row{
+    display:grid;
+    grid-template-columns:auto 1.1fr 1.3fr;
+    gap:14px;
+    align-items:center;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:12px 16px;
+  }
+  .qa-row .q{font-weight:600; font-size:14.5px;}
+  .qa-row .a{color:var(--muted); font-size:13.5px;}
+
+  /* ---------- WH QUESTIONS ---------- */
+  .wh-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(230px,1fr));
+    gap:14px;
+  }
+  .wh-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:16px 18px;
+  }
+  .wh-card .w{
+    display:flex; align-items:center; gap:8px;
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:21px;
+    color:var(--teal-deep);
+  }
+  .wh-card .wes{font-size:12.5px; color:var(--muted); margin:2px 0 10px;}
+  .wh-card .ex{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    background:var(--paper);
+    padding:8px 10px;
+    border-radius:8px;
+    border-left:3px solid var(--coral);
+    display:flex; align-items:center; gap:8px; justify-content:space-between;
+  }
+  .wh-card .exes{font-size:12px; color:var(--muted); margin-top:6px; font-style:italic;}
+
+  /* ---------- NATIONALITIES ---------- */
+  .tabs{display:flex; gap:8px; margin-bottom:18px; flex-wrap:wrap;}
+  .tab-btn{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    padding:7px 14px;
+    border-radius:20px;
+    border:1px solid var(--ink);
+    background:transparent;
+    cursor:pointer;
+    color:var(--ink);
+    transition:all .15s ease;
+  }
+  .tab-btn.active{background:var(--ink); color:var(--paper);}
+
+  .nat-grid{
+    display:none;
+    grid-template-columns:repeat(auto-fill, minmax(190px,1fr));
+    gap:10px;
+  }
+  .nat-grid.active{display:grid;}
+  .nat-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:12px 14px;
+    display:flex; flex-direction:column; gap:2px;
+  }
+  .nat-card .country{font-size:12px; color:var(--muted);}
+  .nat-card .nat-row{display:flex; align-items:center; justify-content:space-between; gap:6px;}
+  .nat-card .nat{font-weight:600; font-size:14.5px; color:var(--teal-deep);}
+
+  /* ---------- FLASHCARDS ---------- */
+  .flash-wrap{display:flex; flex-direction:column; align-items:center; gap:16px;}
+  .flashcard{
+    width:100%; max-width:480px;
+    min-height:140px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:16px;
+    display:flex; align-items:center; justify-content:center;
+    text-align:center;
+    padding:28px;
+    cursor:pointer;
+    font-size:18px;
+    font-weight:600;
+    position:relative;
+    box-shadow:0 2px 0 var(--line);
+    transition:box-shadow .12s ease, transform .12s ease;
+  }
+  .flashcard:hover{transform:translateY(-2px);}
+  .flashcard .hint{
+    position:absolute; bottom:10px; right:14px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px;
+    color:var(--muted);
+    font-weight:400;
+  }
+  .flashcard.showing-answer{background:#eef5f3; color:var(--teal-deep);}
+  .flash-controls{display:flex; gap:10px; align-items:center;}
+  .flash-controls button{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    padding:8px 16px;
+    border-radius:20px;
+    border:1px solid var(--ink);
+    background:var(--ink);
+    color:var(--paper);
+    cursor:pointer;
+  }
+  .flash-controls button.secondary{background:transparent; color:var(--ink);}
+  .flash-progress{font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--muted);}
+
+  footer{
+    text-align:center;
+    margin-top:70px;
+    padding-top:24px;
+    border-top:1px solid var(--line);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    color:var(--muted);
+  }
+
+  @media (max-width:640px){
+    .conj-head{display:none;}
+    .conj-row{grid-template-columns:1fr; gap:10px;}
+    .qa-row{grid-template-columns:auto 1fr; }
+    .qa-row .a{grid-column:2;}
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Inglés Básico I · Unidad 2</div>
+    <h1 class="title">TO BE & <em>Nationalities</em></h1>
+    <p class="subtitle">Guía de estudio: el verbo TO BE (afirmativo, negativo, interrogativo), Wh Questions y nacionalidades — toca 🔊 para escuchar la pronunciación.</p>
+    <div class="hero-tags">
+      <a href="#tobe">Verbo TO BE</a>
+      <a href="#contracciones">Formas contraídas</a>
+      <a href="#estructuras">Estructuras</a>
+      <a href="#yesno">Yes/No Questions</a>
+      <a href="#whq">Wh Questions</a>
+      <a href="#nacionalidades">Nacionalidades</a>
+      <a href="#quiz">Flashcards</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- TO BE CONJUGATION -->
+  <section class="block" id="tobe">
+    <div class="block-head">
+      <span class="block-num">01</span>
+      <h2>El verbo TO BE (presente simple)</h2>
+    </div>
+    <p class="block-intro">Equivale a "ser" o "estar" en español. Se conjuga según el pronombre. Existen formas contraídas (I'm, he's, they're) para contextos informales.</p>
+    <div class="conj-table">
+      <div class="conj-head">
+        <span>Pronombre</span><span>Afirmativo</span><span>Negativo</span><span>Interrogativo</span>
+      </div>
+      <div id="conj-rows"></div>
+    </div>
+  </section>
+
+  <!-- CONTRACCIONES -->
+  <section class="block" id="contracciones">
+    <div class="block-head">
+      <span class="block-num">02</span>
+      <h2>Formas contraídas</h2>
+    </div>
+    <p class="block-intro">Se usan en contextos informales, hablados y escritos casuales. En contextos formales es preferible usar la forma completa (am, is, are).</p>
+    <div class="contr-grid" id="contr-grid"></div>
+  </section>
+
+  <!-- ESTRUCTURAS -->
+  <section class="block" id="estructuras">
+    <div class="block-head">
+      <span class="block-num">03</span>
+      <h2>Estructuras gramaticales</h2>
+    </div>
+    <p class="block-intro">Tres formas de construir una oración con TO BE.</p>
+    <div class="struct-grid" id="struct-grid"></div>
+  </section>
+
+  <!-- YES/NO QUESTIONS -->
+  <section class="block" id="yesno">
+    <div class="block-head">
+      <span class="block-num">04</span>
+      <h2>Yes / No Questions</h2>
+    </div>
+    <p class="block-intro">Preguntas cerradas: <strong>TO BE + sujeto + complemento</strong>. Se responden con sí o no.</p>
+    <div class="qa-list" id="qa-list"></div>
+  </section>
+
+  <!-- WH QUESTIONS -->
+  <section class="block" id="whq">
+    <div class="block-head">
+      <span class="block-num">05</span>
+      <h2>Wh Questions</h2>
+    </div>
+    <p class="block-intro">Preguntas abiertas para pedir información específica.</p>
+    <div class="wh-grid" id="wh-grid"></div>
+  </section>
+
+  <!-- NACIONALIDADES -->
+  <section class="block" id="nacionalidades">
+    <div class="block-head">
+      <span class="block-num">06</span>
+      <h2>Nacionalidades y países</h2>
+    </div>
+    <p class="block-intro">Se escriben con mayúscula. Filtra por terminación para ver el patrón de cada grupo.</p>
+    <div class="tabs" id="nat-tabs"></div>
+    <div id="nat-grids"></div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="block" id="quiz">
+    <div class="block-head">
+      <span class="block-num">07</span>
+      <h2>Practica con flashcards</h2>
+    </div>
+    <p class="block-intro">Toca la tarjeta para ver la respuesta.</p>
+    <div class="flash-wrap">
+      <div class="flashcard" id="flashcard"></div>
+      <div class="flash-controls">
+        <button class="secondary" id="prevBtn">← Anterior</button>
+        <span class="flash-progress" id="flashProgress">1 / 8</span>
+        <button id="nextBtn">Siguiente →</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>Basado en el material de Inglés Básico I — Unidad 2, IPLACEX</footer>
+</div>
+
+<script>
+/* ---------------- AUDIO (Web Speech API) ---------------- */
+const speakIcon = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 9v6h4l5 5V4L8 9H4z"/><path d="M16.5 12a3.5 3.5 0 0 0-1.77-3.03l.02 6.05A3.5 3.5 0 0 0 16.5 12z" opacity=".8"/><path d="M15 6.6v1.8a5.5 5.5 0 0 1 0 7.2v1.8a7.1 7.1 0 0 0 0-10.8z" opacity=".6"/></svg>`;
+
+function speak(text, btn, rate){
+  if(!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'en-US';
+  utter.rate = rate || 0.92;
+  if(btn){
+    btn.classList.add('playing');
+    utter.onend = ()=> btn.classList.remove('playing');
+    utter.onerror = ()=> btn.classList.remove('playing');
+  }
+  window.speechSynthesis.speak(utter);
+}
+
+function spkGroup(text){
+  const safe = text.replace(/"/g,'&quot;');
+  return `<span class="spk-group">
+    <span class="spk" role="button" aria-label="Escuchar pronunciación" data-say="${safe}" data-rate="0.95">${speakIcon}</span>
+    <span class="spk slow" role="button" aria-label="Escuchar lento" data-say="${safe}" data-rate="0.45">0.5×</span>
+  </span>`;
+}
+
+document.addEventListener('click', (e)=>{
+  const el = e.target.closest('.spk');
+  if(!el) return;
+  e.stopPropagation();
+  speak(el.dataset.say, el, parseFloat(el.dataset.rate));
+});
+
+/* ---------------- DATA ---------------- */
+const conjugation = [
+  {p:"I", aff:"I am", affEs:"Soy / estoy", neg:"I am not", negEs:"No soy / no estoy", int:"Am I?", intEs:"¿Soy yo? / ¿estoy yo?"},
+  {p:"You", aff:"You are", affEs:"Eres / estás", neg:"You are not", negEs:"No eres / no estás", int:"Are you?", intEs:"¿Eres tú? / ¿estás tú?"},
+  {p:"He", aff:"He is", affEs:"Él es / está", neg:"He is not", negEs:"No es / no está", int:"Is he?", intEs:"¿Es él? / ¿está él?"},
+  {p:"She", aff:"She is", affEs:"Ella es / está", neg:"She is not", negEs:"No es / no está", int:"Is she?", intEs:"¿Es ella? / ¿está ella?"},
+  {p:"It", aff:"It is", affEs:"Es / está", neg:"It is not", negEs:"No es / no está", int:"Is it?", intEs:"¿Es? / ¿está?"},
+  {p:"We", aff:"We are", affEs:"Somos / estamos", neg:"We are not", negEs:"No somos / no estamos", int:"Are we?", intEs:"¿Somos? / ¿estamos?"},
+  {p:"You (uds.)", aff:"You are", affEs:"Sois / están", neg:"You are not", negEs:"No sois / no están", int:"Are you?", intEs:"¿Sois? / ¿están?"},
+  {p:"They", aff:"They are", affEs:"Son / están", neg:"They are not", negEs:"No son / no están", int:"Are they?", intEs:"¿Son? / ¿están?"},
+];
+
+const contractions = {
+  "Positivas": [
+    ["I am", "I'm"],
+    ["You are", "You're"],
+    ["He is", "He's"],
+    ["She is", "She's"],
+    ["It is", "It's"],
+    ["We are", "We're"],
+    ["They are", "They're"],
+  ],
+  "Negativas": [
+    ["I am not", "I'm not"],
+    ["You are not", "You aren't"],
+    ["He is not", "He isn't"],
+    ["She is not", "She isn't"],
+    ["It is not", "It isn't"],
+    ["We are not", "We aren't"],
+    ["They are not", "They aren't"],
+  ],
+};
+
+const structures = [
+  {label:"Afirmativa", formula:["Sujeto","+","TO BE","+","Complemento"], example:"I am a student."},
+  {label:"Negativa", formula:["Sujeto","+","TO BE + not","+","Complemento"], example:"I am not a student."},
+  {label:"Interrogativa", formula:["TO BE","+","Sujeto","+","Complemento"], example:"Are you a student?"},
+];
+
+const yesNo = [
+  {q:"Am I a teacher?", a:"Yes, you are. / No, you aren't."},
+  {q:"Are you a student?", a:"Yes, I am. / No, I'm not."},
+  {q:"Is he from Chile?", a:"Yes, he is. / No, he isn't."},
+  {q:"Is she Chilean?", a:"Yes, she is. / No, she isn't."},
+  {q:"Is it a pen?", a:"Yes, it is. / No, it isn't."},
+  {q:"Are we happy?", a:"Yes, we are. / No, we aren't."},
+  {q:"Are they friends?", a:"Yes, they are. / No, they aren't."},
+];
+
+const whQuestions = [
+  {w:"When?", es:"Cuándo", ex:"When is your class?", exEs:"¿Cuándo es tu clase?"},
+  {w:"What?", es:"Qué / Cuál", ex:"What is this?", exEs:"¿Qué es esto?"},
+  {w:"Who?", es:"Quién", ex:"Who are you?", exEs:"¿Quién eres?"},
+  {w:"Where?", es:"Dónde", ex:"Where is Danna?", exEs:"¿Dónde está Danna?"},
+  {w:"Why?", es:"Por qué", ex:"Why are you sad?", exEs:"¿Por qué estás triste?"},
+  {w:"How?", es:"Cómo", ex:"How are you?", exEs:"¿Cómo estás?"},
+];
+
+const nationalities = {
+  "-IAN": [["Australia","Australian"],["Bolivia","Bolivian"],["Brazil","Brazilian"],["Cambodia","Cambodian"],["Cameroon","Cameroonian"],["Canada","Canadian"],["Colombia","Colombian"],["Ecuador","Ecuadorian"],["Egypt","Egyptian"],["El Salvador","Salvadorian"],["Estonia","Estonian"],["Ethiopia","Ethiopian"],["Ghana","Ghanaian"],["India","Indian"],["Indonesia","Indonesian"],["Iran","Iranian"],["Italy","Italian"],["Jordan","Jordanian"],["Lithuania","Lithuanian"],["Nigeria","Nigerian"],["Panama","Panamanian"],["Peru","Peruvian"],["Romania","Romanian"],["Syria","Syrian"],["Ukraine","Ukrainian"]],
+  "-AN": [["Afghanistan","Afghan"],["Belgium","Belgian"],["Costa Rica","Costa Rican"],["Cuba","Cuban"],["Dominican Republic","Dominican"],["Germany","German"],["Guatemala","Guatemalan"],["Haiti","Haitian"],["Honduras","Honduran"],["Kenya","Kenyan"],["Malaysia","Malaysian"],["Mexico","Mexican"],["Morocco","Moroccan"],["Nicaragua","Nicaraguan"],["Norway","Norwegian"],["Paraguay","Paraguayan"],["Puerto Rico","Puerto Rican"],["Russia","Russian"],["South Africa","South African"],["United States","American"],["Uruguay","Uruguayan"],["Venezuela","Venezuelan"]],
+  "-EAN": [["Argentina","Argentinean"],["Chile","Chilean"],["Korea","Korean"]],
+  "-ISH/CH": [["England","English"],["Finland","Finnish"],["Denmark","Danish"],["Netherlands","Dutch"],["France","French"],["Ireland","Irish"],["Spain","Spanish"],["Sweden","Swedish"],["Poland","Polish"],["Turkey","Turkish"],["Wales","Welsh"],["United Kingdom","British"]],
+  "-ESE": [["China","Chinese"],["Japan","Japanese"],["Portugal","Portuguese"],["Taiwan","Taiwanese"],["Vietnam","Vietnamese"]],
+  "Otras": [["Czech Republic","Czech"],["Greece","Greek"],["Iceland","Icelander"],["Iraq","Iraqi"],["Israel","Israeli"],["New Zealand","New Zealander"],["Pakistan","Pakistani"],["Philippines","Filipino"],["Qatar","Qatari"],["Saudi Arabia","Saudi"],["Switzerland","Swiss"],["Tajikistan","Tajik"],["Thailand","Thai"]],
+};
+
+const flashcards = [
+  {q:'¿Cómo se dice "Soy estudiante" en inglés?', a:"I am a student."},
+  {q:'Forma negativa de "I am a student"', a:"I am not a student."},
+  {q:'Forma interrogativa de "You are a student"', a:"Are you a student?"},
+  {q:'Respuesta corta afirmativa a "Is he from Chile?"', a:"Yes, he is."},
+  {q:'¿Qué wh-word uso para preguntar "por qué"?', a:"Why"},
+  {q:"Nacionalidad de alguien de Chile", a:"Chilean"},
+  {q:"Nacionalidad de alguien de Japan", a:"Japanese"},
+  {q:"Nacionalidad de alguien de Spain", a:"Spanish"},
+];
+
+/* ---------------- RENDER: conjugation ---------------- */
+const conjRows = document.getElementById('conj-rows');
+conjugation.forEach(c=>{
+  const row = document.createElement('div');
+  row.className = 'conj-row';
+  row.innerHTML = `
+    <div class="conj-cell pron"><span class="en">${c.p}</span></div>
+    <div class="conj-cell"><span class="en">${c.aff} ${spkGroup(c.aff)}</span><span class="es">${c.affEs}</span></div>
+    <div class="conj-cell"><span class="en">${c.neg} ${spkGroup(c.neg)}</span><span class="es">${c.negEs}</span></div>
+    <div class="conj-cell"><span class="en">${c.int} ${spkGroup(c.int)}</span><span class="es">${c.intEs}</span></div>
+  `;
+  conjRows.appendChild(row);
+});
+
+/* ---------------- RENDER: contractions ---------------- */
+const contrGrid = document.getElementById('contr-grid');
+Object.keys(contractions).forEach(kind=>{
+  const card = document.createElement('div');
+  card.className = 'contr-card';
+  const pairsHtml = contractions[kind].map(([full, short])=>`
+    <div class="contr-pair">
+      <span class="full">${full}</span>
+      <span class="arrow">→</span>
+      <span class="short">${short} ${spkGroup(short)}</span>
+    </div>
+  `).join('');
+  card.innerHTML = `<div class="kind">${kind}</div>${pairsHtml}`;
+  contrGrid.appendChild(card);
+});
+
+/* ---------------- RENDER: structures ---------------- */
+const sg = document.getElementById('struct-grid');
+structures.forEach(s=>{
+  const el = document.createElement('div');
+  el.className = 'struct-card';
+  const formulaHtml = s.formula.map(f => f === '+' ? `<span class="plus">+</span>` : `<span>${f}</span>`).join('');
+  el.innerHTML = `
+    <div class="label">${s.label}</div>
+    <div class="struct-formula">${formulaHtml}</div>
+    <div class="struct-example">${s.example} ${spkGroup(s.example)}</div>
+  `;
+  sg.appendChild(el);
+});
+
+/* ---------------- RENDER: yes/no ---------------- */
+const qaList = document.getElementById('qa-list');
+yesNo.forEach(item=>{
+  const row = document.createElement('div');
+  row.className = 'qa-row';
+  row.innerHTML = `${spkGroup(item.q)}<span class="q">${item.q}</span><span class="a">${item.a}</span>`;
+  qaList.appendChild(row);
+});
+
+/* ---------------- RENDER: wh questions ---------------- */
+const whGrid = document.getElementById('wh-grid');
+whQuestions.forEach(w=>{
+  const el = document.createElement('div');
+  el.className = 'wh-card';
+  el.innerHTML = `
+    <div class="w">${w.w}</div>
+    <div class="wes">${w.es}</div>
+    <div class="ex"><span>${w.ex}</span>${spkGroup(w.ex)}</div>
+    <div class="exes">${w.exEs}</div>
+  `;
+  whGrid.appendChild(el);
+});
+
+/* ---------------- RENDER: nationalities ---------------- */
+const natTabs = document.getElementById('nat-tabs');
+const natGrids = document.getElementById('nat-grids');
+const groupKeys = Object.keys(nationalities);
+
+groupKeys.forEach((key, i)=>{
+  const btn = document.createElement('button');
+  btn.className = 'tab-btn' + (i===0 ? ' active' : '');
+  btn.textContent = key;
+  btn.dataset.group = key;
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('#nat-tabs .tab-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.nat-grid').forEach(g=>g.classList.remove('active'));
+    document.getElementById('nat-grid-'+i).classList.add('active');
+  });
+  natTabs.appendChild(btn);
+
+  const grid = document.createElement('div');
+  grid.className = 'nat-grid' + (i===0 ? ' active' : '');
+  grid.id = 'nat-grid-'+i;
+  nationalities[key].forEach(([country, nat])=>{
+    const card = document.createElement('div');
+    card.className = 'nat-card';
+    card.innerHTML = `
+      <span class="country">${country}</span>
+      <div class="nat-row"><span class="nat">${nat}</span>${spkGroup(nat)}</div>
+    `;
+    grid.appendChild(card);
+  });
+  natGrids.appendChild(grid);
+});
+
+/* ---------------- FLASHCARDS ---------------- */
+let idx = 0;
+let showingAnswer = false;
+const fc = document.getElementById('flashcard');
+const progress = document.getElementById('flashProgress');
+
+function renderFlashcard(){
+  const card = flashcards[idx];
+  fc.classList.toggle('showing-answer', showingAnswer);
+  fc.innerHTML = `${showingAnswer ? card.a : card.q}<span class="hint">${showingAnswer ? 'Toca para ver pregunta' : 'Toca para ver respuesta'}</span>`;
+  progress.textContent = `${idx+1} / ${flashcards.length}`;
+}
+fc.addEventListener('click', ()=>{
+  showingAnswer = !showingAnswer;
+  renderFlashcard();
+});
+document.getElementById('nextBtn').addEventListener('click', ()=>{
+  idx = (idx+1) % flashcards.length;
+  showingAnswer = false;
+  renderFlashcard();
+});
+document.getElementById('prevBtn').addEventListener('click', ()=>{
+  idx = (idx-1+flashcards.length) % flashcards.length;
+  showingAnswer = false;
+  renderFlashcard();
+});
+renderFlashcard();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,15 @@
+C:\Users\zunig\Desktop\Iplacex\Analista en programación\1 año\Bimestre 3\3.- PROGRAMACIÓN I\Proyectos programación I\ejercicios-csharp\bin\Debug\net8.0\ejercicios-csharp.exe
+C:\Users\zunig\Desktop\Iplacex\Analista en programación\1 año\Bimestre 3\3.- PROGRAMACIÓN I\Proyectos programación I\ejercicios-csharp\bin\Debug\net8.0\ejercicios-csharp.deps.json
+C:\Users\zunig\Desktop\Iplacex\Analista en programación\1 año\Bimestre 3\3.- PROGRAMACIÓN I\Proyectos programación I\ejercicios-csharp\bin\Debug\net8.0\ejercicios-csharp.runtimeconfig.json
+C:\Users\zunig\Desktop\Iplacex\Analista en programación\1 año\Bimestre 3\3.- PROGRAMACIÓN I\Proyectos programación I\ejercicios-csharp\bin\Debug\net8.0\ejercicios-csharp.dll
+C:\Users\zunig\Desktop\Iplacex\Analista en programación\1 año\Bimestre 3\3.- PROGRAMACIÓN I\Proyectos programación I\ejercicios-csharp\bin\Debug\net8.0\ejercicios-csharp.pdb
+C:\Users\zunig\Desktop\Iplacex\Analista en programación\1 año\Bimestre 3\3.- PROGRAMACIÓN I\Proyectos programación I\ejercicios-csharp\obj\Debug\net8.0\ejercicios-csharp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\zunig\Desktop\Iplacex\Analista en programación\1 año\Bimestre 3\3.- PROGRAMACIÓN I\Proyectos programación I\ejercicios-csharp\obj\Debug\net8.0\ejercicios-csharp.AssemblyInfoInputs.cache
+C:\Users\zunig\Desktop\Iplacex\Analista en programación\1 año\Bimestre 3\3.- PROGRAMACIÓN I\Proyectos programación I\ejercicios-csharp\obj\Debug\net8.0\ejercicios-csharp.AssemblyInfo.cs
+C:\Users\zunig\Desktop\Iplacex\Analista en programación\1 año\Bimestre 3\3.- PROGRAMACIÓN I\Proyectos programación I\ejercicios-csharp\obj\Debug\net8.0\ejercicios-csharp.csproj.CoreCompileInputs.cache
+C:\Users\zunig\Desktop\Iplacex\Analista en programación\1 año\Bimestre 3\3.- PROGRAMACIÓN I\Proyectos programación I\ejercicios-csharp\obj\Debug\net8.0\ejercicios-csharp.sourcelink.json
+C:\Users\zunig\Desktop\Iplacex\Analista en programación\1 año\Bimestre 3\3.- PROGRAMACIÓN I\Proyectos programación I\ejercicios-csharp\obj\Debug\net8.0\ejercicios-csharp.dll
+C:\Users\zunig\Desktop\Iplacex\Analista en programación\1 año\Bimestre 3\3.- PROGRAMACIÓN I\Proyectos programación I\ejercicios-csharp\obj\Debug\net8.0\refint\ejercicios-csharp.dll
+C:\Users\zunig\Desktop\Iplacex\Analista en programación\1 año\Bimestre 3\3.- PROGRAMACIÓN I\Proyectos programación I\ejercicios-csharp\obj\Debug\net8.0\ejercicios-csharp.pdb
+C:\Users\zunig\Desktop\Iplacex\Analista en programación\1 año\Bimestre 3\3.- PROGRAMACIÓN I\Proyectos programación I\ejercicios-csharp\obj\Debug\net8.0\ejercicios-csharp.genruntimeconfig.cache
+C:\Users\zunig\Desktop\Iplacex\Analista en programación\1 año\Bimestre 3\3.- PROGRAMACIÓN I\Proyectos programación I\ejercicios-csharp\obj\Debug\net8.0\ref\ejercicios-csharp.dll

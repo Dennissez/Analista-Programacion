@@ -1,0 +1,169 @@
+# Guía SQL: Interpretación y Consultas
+*Manual práctico de estudio sobre concatenación, cálculos matemáticos, alias y ordenamiento en Oracle SQL (Tabla EMPLOYEES).*
+
+---
+
+## 1. Metodología de Interpretación de Requerimientos
+
+Para traducir cualquier enunciado de negocio a código SQL, se deben identificar 4 componentes clave:
+
+| Pregunta Clave | Cláusula SQL | Descripción y Uso |
+| :--- | :--- | :--- |
+| **1. ¿Qué datos o frases mostrar?** | `SELECT` | Campos, cálculos matemáticos, concatenación de texto (`||`) y ALIAS (`AS "NOMBRE"`). |
+| **2. ¿De dónde se obtienen los datos?** | `FROM` | Tabla de origen (`EMPLOYEES`, `JOBS`, `DEPARTMENTS`). |
+| **3. ¿Qué cálculos u operaciones se requieren?** | Expresiones / `SELECT` | Operaciones matemáticas (`+`, `-`, `*`, `/`) aplicadas sobre las columnas de la tabla. |
+| **4. ¿Cómo se deben ordenar los resultados?** | `ORDER BY` | Ordenamiento ascendente (`ASC`) o descendente (`DESC`). |
+
+---
+
+## 2. Conceptos Fundamentales de Sintaxis
+
+* **Concatenación (`||`):** Une campos de texto y columnas en una sola salida.
+* **Comillas Simples (`' '`):** Se utilizan para definir cadenas de texto fijo en las consultas (ejemplo: `'El salario es: '`).
+* **Comillas Dobles (`" "`):** Se utilizan exclusivamente para ALIAS de columnas que contienen espacios o caracteres especiales.
+* **Paréntesis `()` en Operaciones:** Garantizan la prioridad correcta en cálculos complejos combinados con concatenación.
+
+---
+
+## 3. Desglose de Ejercicios Practicados (Código + Ejemplo de Resultado)
+
+### Ejercicio 2: Selección con Alias y Modificación de Orden
+**Requerimiento:** Mostrar el ID, nombre, apellido y fecha de contratación con sus respectivos alias.
+
+```sql
+SELECT EMPLOYEE_ID AS EMPLEADO,
+       FIRST_NAME AS NOMBRE,
+       LAST_NAME AS APELLIDO,
+       HIRE_DATE AS "FECHA CONTRATACION"
+FROM EMPLOYEES
+ORDER BY EMPLOYEE_ID ASC;
+```
+
+**Ejemplo de cómo se ve el resultado:**
+
+| EMPLEADO | NOMBRE | APELLIDO | FECHA CONTRATACION |
+| :---: | :--- | :--- | :---: |
+| **100** | Steven | King | 17/06/03 |
+| **101** | Neena | Kochhar | 21/09/05 |
+| **102** | Lex | De Haan | 13/01/01 |
+
+---
+
+### Ejercicio 3: Consulta de Cargos Disponibles
+**Requerimiento:** Consultar la lista de identificadores de trabajos desempeñados en la empresa.
+
+```sql
+SELECT JOB_ID
+FROM JOBS;
+```
+
+**Ejemplo de cómo se ve el resultado:**
+
+| JOB_ID |
+| :--- |
+| **AD_PRES** |
+| **AD_VP** |
+| **AD_ASST** |
+| **FI_MGR** |
+| **IT_PROG** |
+
+---
+
+### Ejercicio 4: Cálculo de Comisiones por Empleado
+**Requerimiento:** Calcular el monto de la comisión multiplicando el salario por el porcentaje de comisión, concatenando el nombre completo y ordenando por apellido de forma ascendente.
+
+```sql
+SELECT FIRST_NAME || ' ' || LAST_NAME AS EMPLEADO,
+       SALARY AS "SALARIO ACTUAL",
+       COMMISSION_PCT AS COMISION,
+       (SALARY * COMMISSION_PCT) AS "VALOR COMISION"
+FROM EMPLOYEES
+ORDER BY LAST_NAME ASC;
+```
+
+**Ejemplo de cómo se ve el resultado:**
+
+| EMPLEADO | SALARIO ACTUAL | COMISION | VALOR COMISION |
+| :--- | :---: | :---: | :---: |
+| **Ellen Abel** | 11000 | 0.3 | **3300** |
+| **Sundar Ande** | 6400 | 0.1 | **640** |
+| **Amit Banda** | 6200 | 0.1 | **620** |
+| **Steven King** | 24000 | *(null)* | *(null)* |
+
+---
+
+### Ejercicio 5: Formato de Texto Concatenado y Multiplicación
+**Requerimiento:** Construir una frase personalizada proyectando un salario ideal equivalente a 4 veces el salario actual, ordenado descendentemente por dicho cálculo.
+
+```sql
+SELECT 'El salario actual del empleado ' || FIRST_NAME || ' ' || LAST_NAME || 
+       ' es de $ ' || SALARY || ' pero su sueño es ganar $' || (SALARY * 4) AS "EMPLEADOS Y SU SALARIO SOÑADO"
+FROM EMPLOYEES
+ORDER BY (SALARY * 4) DESC;
+```
+
+**Ejemplo de cómo se ve el resultado:**
+
+| EMPLEADOS Y SU SALARIO SOÑADO |
+| :--- |
+| **El salario actual del empleado Steven King es de $ 24000 pero su sueño es ganar $96000** |
+| **El salario actual del empleado Neena Kochhar es de $ 17000 pero su sueño es ganar $68000** |
+| **El salario actual del empleado Lex De Haan es de $ 17000 pero su sueño es ganar $68000** |
+
+---
+
+### Ejercicio 6: Reajuste Salarial (13.5%)
+**Requerimiento:** Mapear el salario actual y calcular un incremento del 13.5% para todo el personal.
+
+```sql
+SELECT SALARY AS "SALARIO ACTUAL",
+       (SALARY * 1.135) AS "NUEVO SALARIO"
+FROM EMPLOYEES
+ORDER BY (SALARY * 1.135) DESC;
+```
+
+**Ejemplo de cómo se ve el resultado:**
+
+| SALARIO ACTUAL | NUEVO SALARIO |
+| :---: | :---: |
+| **24000** | **27240** |
+| **17000** | **19295** |
+| **17000** | **19295** |
+| **11000** | **12485** |
+
+---
+
+### Ejercicio 7: Liquidación Completa de Remuneraciones
+**Requerimiento:** Calcular haberes (Colación 5.5%, Movilización 17.8%), descuentos de ley (Salud 7.8%, AFP 6.5%) y determinar el Alcance Líquido.
+
+> **Fórmula del Alcance Líquido:**  
+> `SALARY + (SALARY * 0.055) + (SALARY * 0.178) - (SALARY * 0.078) - (SALARY * 0.065)`
+
+```sql
+SELECT FIRST_NAME || ' ' || LAST_NAME AS "EMPLEADO",
+       SALARY AS "SALARIO",
+       (SALARY * 0.055) AS "COLACION",
+       (SALARY * 0.178) AS "MOVILIZACION",
+       (SALARY * 0.078) AS "DESCUENTO SALUD",
+       (SALARY * 0.065) AS "DESCUENTO AFP",
+       (SALARY + (SALARY * 0.055) + (SALARY * 0.178) - (SALARY * 0.078) - (SALARY * 0.065)) AS "ALCANCE LIQUIDO"
+FROM EMPLOYEES;
+```
+
+**Ejemplo de cómo se ve el resultado:**
+
+| EMPLEADO | SALARIO | COLACION | MOVILIZACION | DESCUENTO SALUD | DESCUENTO AFP | ALCANCE LIQUIDO |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Steven King** | 24000 | 1320 | 4272 | 1872 | 1560 | **26160** |
+| **Neena Kochhar** | 17000 | 935 | 3026 | 1326 | 1105 | **18530** |
+| **Lex De Haan** | 17000 | 935 | 3026 | 1326 | 1105 | **18530** |
+
+---
+
+## 4. Resumen Visual de Concatenación y Plantillas Dinámicas
+
+| Patrón de Uso | Código SQL Ejemplar | Resultado Proyectado |
+| :--- | :--- | :--- |
+| **Nombre Completo** | `FIRST_NAME \|\| ' ' \|\| LAST_NAME` | Steven King |
+| **Correo Corporativo** | `FIRST_NAME \|\| '.' \|\| LAST_NAME \|\| '@empresa.cl'` | Steven.King@empresa.cl |
+| **Cargo Detallado** | `FIRST_NAME \|\| ' trabaja como ' \|\| JOB_ID` | Steven trabaja como AD_PRES |
